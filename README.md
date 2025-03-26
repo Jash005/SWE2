@@ -1,6 +1,11 @@
 # SWE2
 SWE 2 Projekt - Flip And Learn
 
+## Regeln zu Git Commits
+- in Englisch
+- kurz und knapp (add, change, create, update, delete, etc.)
+- mit Kennung von Task aus Jira, also #SCRUM-XX am Ende angefügt
+
 ## Frontend Starten
 > cd /SWE2/FRONTEND/flipandlearn
 
