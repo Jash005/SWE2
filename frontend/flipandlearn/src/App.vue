@@ -1,28 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <start msg="Welcome to Your Vue.js App"/>
+  <MainView />
 </template>
 
 <script>
-import start from './components/HomeView.vue'
-import register from './components/RegisterView.vue'
-import login from './components/LoginView.vue'
+import MainView from './components/MainView.vue';
 
 export default {
   name: 'App',
   components: {
-    start
+    MainView
   }
 }
 </script>
 
 <style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

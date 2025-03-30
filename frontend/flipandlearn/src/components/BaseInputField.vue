@@ -1,0 +1,73 @@
+<template>
+  <div class="input-group">
+    <label v-if="label" :for="id">{{ label }}</label>
+    <input :id="id" :type="type" :placeholder="placeholder" v-model="inputValue"
+      :class="{ 'input-error': errorMessage }" @input="updateValue" />
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BaseInputField',
+  props: {
+    modelValue: String, // v-model für Zwei-Wege-Datenbindung
+    label: String,
+    placeholder: String,
+    type: {
+      type: String,
+      default: "text",
+    },
+    id: String,
+    validation: Function, // Optional: Validierungsfunktion
+  },
+  data() {
+    return {
+      errorMessage: "",
+    };
+  },
+  computed: {
+    inputValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
+  methods: {
+    updateValue(event) {
+      const value = event.target.value;
+      this.$emit("update:modelValue", value);
+
+      if (this.validation) {
+        this.errorMessage = this.validation(value);
+      }
+    },
+  },
+}
+</script>
+
+<style scoped>
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input-error {
+  border-color: red;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+</style>
