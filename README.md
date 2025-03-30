@@ -22,6 +22,9 @@ läuft lokal i.d.R. dann auf http://localhost:8080
 Vue-Komponenten: PascalCase
 CSS-Klassen und IDs: kebab-case
 
+#### Style Frontend
+befolgt dem Prinzip von Mobile-First
+
 
 ## Backend starten
 > cd /SWE2/BACKEND
