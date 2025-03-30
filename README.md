@@ -18,6 +18,11 @@ SWE 2 Projekt - Flip And Learn
 
 läuft lokal i.d.R. dann auf http://localhost:8080
 
+#### Namenskonvention Frontend
+Vue-Komponenten: PascalCase
+CSS-Klassen und IDs: kebab-case
+
+
 ## Backend starten
 > cd /SWE2/BACKEND
 ...
