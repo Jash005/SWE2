@@ -1,5 +1,4 @@
 <template>
-    card management works
 
     <!-- show all Sets -->
     <section class="card-area" v-if="allUserSets.length > 0">
@@ -50,4 +49,26 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.card-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card-area h1 {
+  color: var(--white-font);
+}
+
+a {
+  color: var(--bright-font);
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+a:hover {
+  color: var(--bright-font);
+}
+</style>

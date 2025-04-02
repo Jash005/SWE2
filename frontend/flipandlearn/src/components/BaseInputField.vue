@@ -53,13 +53,32 @@ export default {
 .input-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+label {
+  color: var(--white-font);
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+  text-align: left;
+  opacity: 0.5;
 }
 
 input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px;
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--white-font);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--bright-font);
+  background-color: #1a1a1a;
+  outline: none;
 }
 
 .input-error {

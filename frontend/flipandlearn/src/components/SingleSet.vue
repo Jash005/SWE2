@@ -3,9 +3,9 @@
   <div class="single-set">
     <h3>{{ set?.name || 'Set ohne Name' }}</h3>
     <!-- TODO replace with Icons -->
-    <p @click.stop="deleteSet">löschen</p>
     <p @click.stop="playSet">spielen</p>
     <p @click.stop="editSet">bearbeiten</p>
+    <p @click.stop="deleteSet">löschen</p>
   </div>
 </template>
 
@@ -34,17 +34,37 @@ export default {
 
 <style scoped>
 div.single-set {
-  background-color: aqua;
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px;
+  background-color: var(--boxes);
+  padding: 24px;
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  min-width: 160px;
+  transition: transform 0.2s ease;
 }
 
-.icon:hover path {
-  stroke: #333;
+div.single-set:hover {
+  transform: translateY(-3px);
 }
 
-.icon {
+.single-set h3 {
+  color: var(--white-font);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.single-set p {
+  color: var(--bright-font);
+  margin: 6px 0;
   cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.single-set p:hover {
+  color: var(--bright-font-hover);
 }
 </style>
