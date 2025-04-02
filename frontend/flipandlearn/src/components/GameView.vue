@@ -1,15 +1,15 @@
 <template>
-  gameView works
-  <div>
+  <div class="game-view">
+    <h2>Spielen</h2>
+
     <article v-if="!selectedSet">
       <section class="set-area" v-if="allUserSets.length > 0">
-        <SingleSet v-for="set in allUserSets" :key="set.id" :set="set" @delete="deleteSet" @play="playSet"
-          @edit="editSet" />
+        <SingleSetPlay v-for="set in allUserSets" :key="set.id" :set="set" @play="playSet" />
       </section>
     </article>
 
     <article v-else>
-      <h2>{{ selectedSet.name }}</h2>
+      <h3>{{ selectedSet.name }}</h3>
       <section class="card-area">
         <SingleCard v-for="card in selectedSet.cards.slice(0, 16)" :key="card.id" :card="card" />
       </section>
@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import SingleSet from './SingleSet.vue';
+import SingleSetPlay from './SingleSetPlay.vue';
 import SingleCard from './SingleCard.vue';
 
 export default {
   name: 'GameView',
   components: {
-    SingleSet,
+    SingleSetPlay,
     SingleCard
   },
   data() {
@@ -42,17 +42,7 @@ export default {
             { id: 7, question: 'Frage 7', answer: 'Antwort 7' },
             { id: 8, question: 'Frage 8', answer: 'Antwort 8' },
             { id: 9, question: 'Frage 9', answer: 'Antwort 9' },
-            { id: 10, question: 'Frage 10', answer: 'Antwort 10' },
-            { id: 11, question: 'Frage 11', answer: 'Antwort 11' },
-            { id: 12, question: 'Frage 12', answer: 'Antwort 12' },
-            { id: 13, question: 'Frage 13', answer: 'Antwort 13' },
-            { id: 14, question: 'Frage 14', answer: 'Antwort 14' },
-            { id: 15, question: 'Frage 15', answer: 'Antwort 15' },
-            { id: 16, question: 'Frage 16', answer: 'Antwort 16' },
-            { id: 17, question: 'Frage 17', answer: 'Antwort 17' },
-            { id: 18, question: 'Frage 18', answer: 'Antwort 18' },
-            { id: 19, question: 'Frage 19', answer: 'Antwort 19' },
-            { id: 20, question: 'Frage 20', answer: 'Antwort 20' }
+            { id: 10, question: 'Frage 10', answer: 'Antwort 10' }
           ]
         }
       ]
@@ -79,9 +69,32 @@ export default {
 </script>
 
 <style scoped>
+.game-view {
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: var(--bright-font);
+  margin-bottom: 20px;
+}
+
+.set-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
 .card-area {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 10px;
+  padding: 20px;
 }
 </style>

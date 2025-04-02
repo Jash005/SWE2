@@ -23,34 +23,32 @@ export default {
 
 <style scoped>
 #flex-container {
-    display: flex;
-    flex-direction: column-reverse;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 #navigation {
-    min-height: 5vh;
-    background-color: lightcoral;
+  min-height: 5vh;
+  background-color: var(--background);
+  color: var(--white-font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #content {
-    flex: 1;
-    background-color: lightgreen;
+  flex: 1;
+  padding: 20px;
 }
 
-
-
 @media (min-width: 768px) {
-    #flex-container {
-        flex-direction: row;
-    }
+  #flex-container {
+    flex-direction: row;
+  }
 
-    #content {
-        padding: 1vh 1vw;
-    }
-
-    #navigation {
-        min-height: 100vh;
-    }
+  #navigation {
+    min-height: 100vh;
+  }
 }
 </style>

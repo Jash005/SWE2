@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1>Kartenverwaltung</h1>
-
-    <CardInputField @add-card="addNewCard" />
+       <CardInputField @add-card="addNewCard" />
 
     <section v-if="allExistingCards.length > 0">
       <h2>Vorhandene Karten:</h2>
@@ -48,3 +46,33 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h1 {
+  color: var(--bright-font);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: var(--white-font);
+  text-align: center;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+section {
+  background-color: var(--white-font);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+  max-width: 1000px;
+  margin: 40px auto;
+}
+</style>

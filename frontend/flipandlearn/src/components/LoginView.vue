@@ -6,7 +6,7 @@
       <BaseInputField v-model="username" label="Benutzername" placeholder="Dein Benutzername" />
 
       <BaseInputField v-if="!isLogin" v-model="email" label="E-Mail" type="email" placeholder="Deine E-Mail"
-        :validation="validateEmail" />
+                      :validation="validateEmail" />
 
       <BaseInputField v-model="password" label="Passwort" type="password" placeholder="Dein Passwort" />
 
@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      isLogin: true, // true for login, false for register
+      isLogin: true,
       username: '',
       email: '',
       password: '',
@@ -58,3 +58,72 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.user-view {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 32px;
+  background-color: var(--boxes);
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.user-view h1 {
+  color: var(--white-font);
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+input {
+  padding: 12px;
+  background-color: #1e1e1e;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--white-font);
+  font-size: 15px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus {
+  background-color: #222;
+  border-color: var(--bright-font);
+  outline: none;
+}
+
+button {
+  background-color: var(--bright-font);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: var(--bright-font-hover);
+  transform: translateY(-2px);
+}
+
+p {
+  margin-top: 20px;
+  color: var(--white-font);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+p:hover {
+  color: var(--bright-font);
+}
+</style>
