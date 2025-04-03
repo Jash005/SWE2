@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .single-set-play {
-  background-color: var(--boxes);
+  background-color: var(--box);
   padding: 24px;
   margin: 16px;
   border-radius: 16px;

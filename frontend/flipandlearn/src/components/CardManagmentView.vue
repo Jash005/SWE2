@@ -59,7 +59,7 @@ export default {
 }
 
 .card-area h1 {
-  color: var(--general-font);
+  color: var(--general-font-header);
 }
 
 a {

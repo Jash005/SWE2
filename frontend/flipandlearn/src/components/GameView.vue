@@ -75,7 +75,7 @@ export default {
 }
 
 h2 {
-  color: var(--general-font);
+  color: var(--general-font-header);
   margin-bottom: 20px;
 }
 

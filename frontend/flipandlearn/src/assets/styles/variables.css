@@ -16,9 +16,11 @@
     --black-font: #000000;
     --general-font: #faf1da;
     --general-font-hover: #fde7ad;
+    --general-font-header: #fdc01e;
     --background: #2d7a6e;
-    --boxes: #408174;
-    --buttons: #f8c336;
+    --box: #408174;
+    --button: #f8c336;
+    --button-hover: #faba10;
     --home-font: #ffe18f;
     --home-font-hover: #ffd65a;
     --home-font-header: #ffcd37;

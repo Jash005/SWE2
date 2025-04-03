@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 div.single-set {
-  background-color: var(--boxes);
+  background-color: var(--box);
   padding: 24px;
   margin: 16px;
   border-radius: 16px;

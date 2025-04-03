@@ -30,6 +30,13 @@ export default {
 </script>
 
 <style scoped>
+
+h2 {
+  color: var(--general-font-header);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -55,7 +62,7 @@ input:focus {
 }
 
 button {
-  background-color: var(--buttons);
+  background-color: var(--button);
   color: white;
   padding: 12px;
   border: none;

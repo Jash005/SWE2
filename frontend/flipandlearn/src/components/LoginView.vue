@@ -64,7 +64,7 @@ export default {
   max-width: 400px;
   margin: 100px auto;
   padding: 32px;
-  background-color: var(--boxes);
+  background-color: var(--box);
   border-radius: 16px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   text-align: center;
@@ -109,7 +109,7 @@ input:-webkit-autofill:focus {
 }
 
 button {
-  background-color: var(--buttons);
+  background-color: var(--button);
   color: white;
   padding: 12px;
   border: none;
@@ -121,7 +121,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--general-font-hover);
+  background-color: var(--button-hover);
   transform: translateY(-2px);
 }
 
