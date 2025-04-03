@@ -75,7 +75,7 @@ export default {
 }
 
 .title-link {
-  color: var(--navbar-font-header);
+  color: var(--home-font-header);
   text-align: center;
   font-size: 28px;
   font-weight: 600;
@@ -85,7 +85,7 @@ export default {
 }
 
 .title-link:hover {
-  color: var(--navbar-font-hover);
+  color: var(--home-font-header-hover);
 }
 
 nav ul {

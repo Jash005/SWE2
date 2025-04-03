@@ -21,13 +21,15 @@
     --buttons: #f8c336;
     --home-font: #ffe18f;
     --home-font-hover: #ffd65a;
-    --home-font-header: #f8e8bf;
-    --home-font-header-hover: #fadc81;
-    --navbar-background: #f8c336;
+    --home-font-header: #ffcd37;
+    --home-font-header-hover: #ffc100;
+    --navbar-background: #fdc01e;
     --navbar-border: #fdeaa9;
-    --navbar-font: #fffdf1;
-    --navbar-font-hover: #fad76e;
-    --navbar-font-header: #fbf3d7;
+    /*--navbar-font: #fffdf1;*/
+    /*--navbar-font-hover: #fad76e;*/
+    /*--navbar-font: #2d7a6e;*/
+    --navbar-font: #2d7a6e;
+    --navbar-font-hover: #225a52;
     --input-field: #fdf6e2;
     --input-field-focus: #ddd9c6;
     --input-field-border: #668a82;

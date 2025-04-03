@@ -48,7 +48,7 @@ export default {
 .logo-container h1 {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  color: var(--navbar-font-header);
+  color: var(--navbar-font);
   font-size: 26px;
   letter-spacing: 4px;
 }
