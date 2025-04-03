@@ -28,4 +28,12 @@ befolgt dem Prinzip von Mobile-First
 
 ## Backend starten
 > cd /SWE2/BACKEND
-...
+
+#### Testumgebung:
+> npm run dev
+
+#### Produktionsumgebung:
+> npm run start
+> 
+
+läuft lokal auf http://localhost:3000
