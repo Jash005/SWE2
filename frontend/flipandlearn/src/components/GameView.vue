@@ -75,12 +75,12 @@ export default {
 }
 
 h2 {
-  color: var(--color-primary);
+  color: var(--general-font);
   margin-bottom: 20px;
 }
 
 h3 {
-  color: var(--bright-font);
+  color: var(--general-font);
   margin-bottom: 20px;
 }
 

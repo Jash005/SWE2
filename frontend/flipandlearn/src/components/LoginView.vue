@@ -71,7 +71,7 @@ export default {
 }
 
 .user-view h1 {
-  color: var(--white-font);
+  color: var(--general-font);
   margin-bottom: 24px;
   font-size: 28px;
   font-weight: 600;
@@ -85,22 +85,31 @@ form {
 
 input {
   padding: 12px;
-  background-color: #1e1e1e;
-  border: 1px solid var(--color-border);
+  background-color: var(--input-field);
+  border: 1px solid var(--input-field-border);
   border-radius: 10px;
-  color: var(--white-font);
+  color: var(--black-font);
   font-size: 15px;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 input:focus {
-  background-color: #222;
-  border-color: var(--bright-font);
+  background-color: var(--input-field);
+  color: var(--black-font);
+  border-color: var(--general-font);
   outline: none;
 }
 
+/* Autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--input-field) inset;
+  -webkit-text-fill-color: var(--general-font);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 button {
-  background-color: var(--bright-font);
+  background-color: var(--buttons);
   color: white;
   padding: 12px;
   border: none;
@@ -112,18 +121,18 @@ button {
 }
 
 button:hover {
-  background-color: var(--bright-font-hover);
+  background-color: var(--general-font-hover);
   transform: translateY(-2px);
 }
 
 p {
   margin-top: 20px;
-  color: var(--white-font);
+  color: var(--general-font);
   cursor: pointer;
   font-size: 14px;
 }
 
 p:hover {
-  color: var(--bright-font);
+  color: var(--general-font-hover);
 }
 </style>

@@ -31,7 +31,7 @@ export default {
 #navigation {
   min-height: 5vh;
   background-color: var(--background);
-  color: var(--white-font);
+  color: var(--general-font);
   display: flex;
   align-items: center;
   justify-content: center;

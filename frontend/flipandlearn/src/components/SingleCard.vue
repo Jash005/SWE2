@@ -43,7 +43,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--white-font);
+  color: var(--general-font);
   font-size: 14px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;

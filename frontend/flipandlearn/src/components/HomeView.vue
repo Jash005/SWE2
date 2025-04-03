@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 #home-view {
-  color: var(--white-font);
+  color: var(--general-font);
   min-height: 70vh;
   padding: 40px;
   display: flex;
@@ -75,7 +75,7 @@ export default {
 }
 
 .title-link {
-  color: var(--color-dark);
+  color: var(--navbar-font-header);
   text-align: center;
   font-size: 28px;
   font-weight: 600;
@@ -85,7 +85,7 @@ export default {
 }
 
 .title-link:hover {
-  color: var(--bright-font-hover);
+  color: var(--navbar-font-hover);
 }
 
 nav ul {
@@ -98,16 +98,16 @@ nav ul {
 }
 
 nav li {
-  color: var(--white-font);
+  color: var(--general-font);
 }
 
 a {
-  color: var(--bright-font);
+  color: var(--home-font);
   text-decoration: none;
   font-size: 16px;
 }
 
 a:hover {
-  color: var(--bright-font-hover);
+  color: var(--home-font-hover);
 }
 </style>

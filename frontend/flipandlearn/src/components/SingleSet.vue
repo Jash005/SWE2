@@ -49,7 +49,7 @@ div.single-set:hover {
 }
 
 .single-set h3 {
-  color: var(--white-font);
+  color: var(--general-font);
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 10px;
@@ -57,7 +57,7 @@ div.single-set:hover {
 }
 
 .single-set p {
-  color: var(--bright-font);
+  color: var(--general-font);
   margin: 6px 0;
   cursor: pointer;
   font-weight: 500;
@@ -65,6 +65,6 @@ div.single-set:hover {
 }
 
 .single-set p:hover {
-  color: var(--bright-font-hover);
+  color: var(--general-font-hover);
 }
 </style>

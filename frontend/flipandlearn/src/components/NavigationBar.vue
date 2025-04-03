@@ -22,14 +22,15 @@ export default {
 <style scoped>
 #navigation-bar {
   background-color: var(--navbar-background);
-  color: var(--white-font);
+  color: var(--navbar-font);
+  font-weight: 500;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   gap: 40px;
   min-height: 100vh;
-  border-right: 2px solid var(--bright-font);
+  border-right: 1.3px solid var(--navbar-border);
 }
 
 .logo-container {
@@ -47,13 +48,13 @@ export default {
 .logo-container h1 {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  color: var(--bright-font);
+  color: var(--navbar-font-header);
   font-size: 26px;
   letter-spacing: 4px;
 }
 
 .logo-container:hover h1 {
-  color: var(--bright-font-hover);
+  color: var(--navbar-font-hover);
 }
 
 ul {
@@ -65,13 +66,13 @@ ul {
 }
 
 a {
-  color: var(--white-font);
+  color: var(--navbar-font);
   text-decoration: none;
   font-size: 16px;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: var(--bright-font);
+  color: var(--navbar-font-hover);
 }
 </style>

@@ -1,12 +1,35 @@
+/* Grau-grünes Design:
+/*:root {*/
+/*    --background: #2f3c4a;*/
+/*    --boxes: #2c3e50;*/
+/*    --bright-font: #41B883;*/
+/*    --bright-font-hover: #277c55;*/
+/*    --dark-font: #1e5a40;*/
+/*    --dark-font-hover: #164c35;*/
+/*    --white-font: #eeeeee;*/
+/*    --color-input-bg: #1a1a1a;*/
+/*    --color-border: #35495e;*/
+/*    --navbar-background: #283240;*/
+/*}*/
+
 :root {
-    --background: #2f3c4a;
-    --boxes: #2c3e50;
-    --bright-font: #41B883;
-    --bright-font-hover: #277c55;
-    --dark-font: #1e5a40;
-    --dark-font-hover: #164c35;
-    --white-font: #eeeeee;
-    --color-input-bg: #1a1a1a;
-    --color-border: #35495e;
-    --navbar-background: #283240;
+    --black-font: #000000;
+    --general-font: #faf1da;
+    --general-font-hover: #fde7ad;
+    --background: #2d7a6e;
+    --boxes: #408174;
+    --buttons: #f8c336;
+    --home-font: #ffe18f;
+    --home-font-hover: #ffd65a;
+    --home-font-header: #f8e8bf;
+    --home-font-header-hover: #fadc81;
+    --navbar-background: #f8c336;
+    --navbar-border: #fdeaa9;
+    --navbar-font: #fffdf1;
+    --navbar-font-hover: #fad76e;
+    --navbar-font-header: #fbf3d7;
+    --input-field: #fdf6e2;
+    --input-field-focus: #ddd9c6;
+    --input-field-border: #668a82;
+    --label-font: #fdfaf1;
 }

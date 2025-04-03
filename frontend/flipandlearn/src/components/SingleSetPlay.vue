@@ -39,7 +39,7 @@ export default {
 }
 
 .single-set-play h3 {
-  color: var(--white-font);
+  color: var(--general-font);
   font-size: 22px;
   font-weight: 600;
   margin: 0;

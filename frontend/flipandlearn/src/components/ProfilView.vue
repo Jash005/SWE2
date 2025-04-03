@@ -85,14 +85,14 @@ export default {
 
 <style scoped>
 h2 {
-  color: var(--white-font);
+  color: var(--general-font);
   text-align: center;
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 10px;
 }
 h4 {
-  color: var(--white-font);
+  color: var(--general-font);
   text-align: center;
   font-size: 18px;
   font-weight: 500;
@@ -110,14 +110,14 @@ h4 {
 
 .card-area > a {
   margin-bottom: 10px;
-  color: var(--bright-font);
+  color: var(--general-font);
   text-decoration: none;
   font-size: 16px;
   transition: color 0.3s ease;
 }
 
 .card-area > a:hover {
-  color: var(--bright-font-hover);
+  color: var(--general-font-hover);
 }
 
 .card-area > div {
@@ -133,11 +133,11 @@ h4 {
 }
 
 a {
-  color: var(--bright-font);
+  color: var(--general-font);
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--bright-font-hover);
+  color: var(--general-font-hover);
 }
 </style>

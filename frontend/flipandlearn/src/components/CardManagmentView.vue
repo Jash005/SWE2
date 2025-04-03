@@ -59,16 +59,16 @@ export default {
 }
 
 .card-area h1 {
-  color: var(--white-font);
+  color: var(--general-font);
 }
 
 a {
-  color: var(--bright-font);
+  color: var(--general-font);
   text-decoration: none;
   margin-top: 10px;
 }
 
 a:hover {
-  color: var(--bright-font);
+  color: var(--general-font);
 }
 </style>

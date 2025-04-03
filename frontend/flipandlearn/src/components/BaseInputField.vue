@@ -58,7 +58,7 @@ export default {
 }
 
 label {
-  color: var(--white-font);
+  color: var(--label-font);
   font-size: 14px;
   margin-bottom: 6px;
   display: block;
@@ -67,18 +67,28 @@ label {
 }
 
 input {
-  padding: 10px;
-  background-color: var(--color-input-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  color: var(--white-font);
+  padding: 12px;
+  background-color: var(--input-field);
+  border: 1px solid var(--input-field-border);
+  border-radius: 10px;
+  color: var(--black-font);
+  font-size: 15px;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 input:focus {
-  border-color: var(--bright-font);
-  background-color: #1a1a1a;
+  background-color: var(--input-field-focus);
+  color: var(--black-font);
+  border-color: var(--general-font);
   outline: none;
+}
+
+/* Autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--input-field) inset;
+  -webkit-text-fill-color: var(--general-font);
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .input-error {

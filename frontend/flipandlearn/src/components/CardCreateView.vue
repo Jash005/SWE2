@@ -49,13 +49,13 @@ export default {
 
 <style scoped>
 h1 {
-  color: var(--bright-font);
+  color: var(--general-font);
   text-align: center;
   margin-bottom: 20px;
 }
 
 h2 {
-  color: var(--white-font);
+  color: var(--general-font);
   text-align: center;
 }
 
@@ -68,7 +68,7 @@ h2 {
 }
 
 section {
-  background-color: var(--white-font);
+  background-color: var(--general-font);
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);

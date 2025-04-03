@@ -38,31 +38,36 @@ form {
 }
 
 input {
-  padding: 10px;
-  width: 300px;
-  background-color: var(--color-input-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  color: var(--white-font);
+  padding: 12px;
+  background-color: var(--input-field);
+  border: 1px solid var(--input-field-border);
+  border-radius: 10px;
+  color: var(--black-font);
+  font-size: 15px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 input:focus {
-  border-color: var(--bright-font);
-  background-color: #1a1a1a;
+  background-color: var(--input-field-focus);
+  color: var(--black-font);
+  border-color: var(--general-font);
+  outline: none;
 }
 
 button {
-  padding: 10px 20px;
-  background-color: var(--bright-font);
+  background-color: var(--buttons);
   color: white;
+  padding: 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 button:hover {
-  background-color: var(--bright-font-hover);
+  background-color: var(--general-font-hover);
   transform: translateY(-2px);
 }
 </style>
