@@ -49,7 +49,7 @@ div.single-set:hover {
 }
 
 .single-set h3 {
-  color: var(--general-font);
+  color: var(--general-font-header);
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 10px;
