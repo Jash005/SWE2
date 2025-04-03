@@ -17,21 +17,24 @@
     --general-font: #faf1da;
     --general-font-hover: #fde7ad;
     --general-font-header: #fdc01e;
+    --font-header-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.3);
     --background: #2d7a6e;
     --box: #408174;
     --button: #f8c336;
-    --button-hover: #faba10;
+    --button-hover: #fdc01e;
+    --button-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    --button-font: #2d7a6e;
     --home-font: #ffe18f;
-    --home-font-hover: #ffd65a;
+    --home-font-hover: #ffd34e;
     --home-font-header: #ffcd37;
-    --home-font-header-hover: #ffc100;
+    --home-font-header-hover: #edb402;
     --navbar-background: #fdc01e;
     --navbar-border: #fdeaa9;
     /*--navbar-font: #fffdf1;*/
     /*--navbar-font-hover: #fad76e;*/
     /*--navbar-font: #2d7a6e;*/
     --navbar-font: #2d7a6e;
-    --navbar-font-hover: #225a52;
+    --navbar-font-hover: #24685f;
     --input-field: #fdf6e2;
     --input-field-focus: #ddd9c6;
     --input-field-border: #668a82;

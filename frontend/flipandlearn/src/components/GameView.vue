@@ -76,6 +76,7 @@ export default {
 
 h2 {
   color: var(--general-font-header);
+  text-shadow: var(--font-header-shadow);
   margin-bottom: 20px;
 }
 

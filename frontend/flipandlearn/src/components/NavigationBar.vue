@@ -30,8 +30,9 @@ export default {
   padding: 20px;
   gap: 40px;
   min-height: 100vh;
-  border-right: 1.3px solid var(--navbar-border);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
 }
+
 
 .logo-container {
   display: flex;
@@ -51,6 +52,7 @@ export default {
   color: var(--navbar-font);
   font-size: 26px;
   letter-spacing: 4px;
+  text-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.3);
 }
 
 .logo-container:hover h1 {
@@ -70,9 +72,11 @@ a {
   text-decoration: none;
   font-size: 16px;
   transition: color 0.3s ease;
+  text-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.3);
 }
 
 a:hover {
   color: var(--navbar-font-hover);
 }
+
 </style>

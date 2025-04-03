@@ -60,6 +60,7 @@ export default {
 <style scoped>
 h2 {
   color: var(--general-font-header);
+  text-shadow: var(--font-header-shadow);
   text-align: center;
   font-size: 28px;
   font-weight: 600;
@@ -91,13 +92,14 @@ h4 {
 
 .create-button {
   background-color: var(--button);
-  color: white;
+  color: var(--button-font);
   padding: 12px 24px;
   border-radius: 10px;
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: var(--button-shadow);
 }
 
 .create-button:hover {

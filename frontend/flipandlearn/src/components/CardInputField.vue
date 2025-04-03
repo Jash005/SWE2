@@ -33,6 +33,7 @@ export default {
 
 h2 {
   color: var(--general-font-header);
+  text-shadow: var(--font-header-shadow);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -63,7 +64,7 @@ input:focus {
 
 button {
   background-color: var(--button);
-  color: white;
+  color: var(--button-font);
   padding: 12px;
   border: none;
   border-radius: 10px;

@@ -110,7 +110,7 @@ input:-webkit-autofill:focus {
 
 button {
   background-color: var(--button);
-  color: white;
+  color: var(--button-font);
   padding: 12px;
   border: none;
   border-radius: 10px;
@@ -118,6 +118,7 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-size: 16px;
   font-weight: 500;
+
 }
 
 button:hover {

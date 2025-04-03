@@ -60,6 +60,7 @@ export default {
 
 .card-area h1 {
   color: var(--general-font-header);
+  text-shadow: var(--font-header-shadow);
 }
 
 a {
