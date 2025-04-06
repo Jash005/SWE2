@@ -10,6 +10,11 @@
 
     <article v-else>
       <h3>{{ selectedSet.name }}</h3>
+
+      <section class="match-buttons">
+        <MatchButtons />
+      </section>
+
       <section class="card-area">
         <SingleCard v-for="card in selectedSet.cards.slice(0, 16)" :key="card.id" :card="card" />
       </section>
@@ -20,12 +25,14 @@
 <script>
 import SingleSetPlay from './SingleSetPlay.vue';
 import SingleCard from './SingleCard.vue';
+import MatchButtons from './MatchButtons.vue';
 
 export default {
   name: 'GameView',
   components: {
     SingleSetPlay,
-    SingleCard
+    SingleCard,
+    MatchButtons
   },
   data() {
     return {
