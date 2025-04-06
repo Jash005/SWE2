@@ -94,8 +94,16 @@ h3 {
 
 .card-area {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
   padding: 20px;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .card-area {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+  }
 }
 </style>
