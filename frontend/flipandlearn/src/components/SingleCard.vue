@@ -8,6 +8,7 @@
                 <span class="material-symbols-outlined">question_mark</span>
             </template>
 
+
             <!-- This line is required because the library expects the attribute on the template tag -->
             <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
             <template v-slot:back class="back">
