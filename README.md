@@ -8,6 +8,7 @@ SWE 2 Projekt - Flip And Learn
 
 ## Frontend Starten
 > cd /SWE2/FRONTEND/flipandlearn
+> npm install
 
 #### Testumgebung:
 > npm run serve
