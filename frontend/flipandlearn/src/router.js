@@ -5,6 +5,7 @@ import GameView from './components/GameView.vue';
 import CardManagmentView from './components/CardManagmentView.vue';
 import ProfilView from './components/ProfilView.vue';
 import CardCreateView from './components/CardCreateView.vue';
+import NotFound from './components/NotFound.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
@@ -13,6 +14,7 @@ const routes = [
   { path: '/card-management', name: 'CardManagement', component: CardManagmentView },
   { path: '/profil', name: 'Profil', component: ProfilView },
   { path: '/card-create', name: 'CardCreate', component: CardCreateView },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
 const router = createRouter({
