@@ -23,3 +23,5 @@ app.use((req, res) => {
 app.listen(process.env.NODE_PORT, () => {
     console.log(`App listening at http://localhost:${process.env.NODE_PORT}`)
 });
+
+//app.listen(3000, () => console.log('Server läuft auf Port 3000'));
