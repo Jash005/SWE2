@@ -4,6 +4,7 @@ import cors from 'cors';
 import { echoController } from "./controllers/echo.js";
 import { userController } from "./controllers/user.js";
 import { logRequest } from "./util/logger.js";
+import { setController } from './controllers/set.js';
 
 export const router = express.Router();
 
@@ -13,6 +14,7 @@ router.use(logRequest);
 
 router.use('/echo', echoController);
 router.use('/users', userController);
+router.use('/sets', setController);
 
 router.use((req, res) => {
     res.status(404);

@@ -2,6 +2,7 @@ import express from 'express';
 import {createUser, deleteUser, getUser, queryUsers, updateUser} from '../models/user.js';
 import { validateUserFields } from '../services/user.js';
 import { basicAuth } from '../util/auth.js';
+import { deleteSetsByUser, getSetsFromUser } from '../models/set.js';
 
 const router = express.Router();
 
@@ -98,10 +99,22 @@ router.patch('/:username', basicAuth, authorizeUser, validateUserObject, async (
 router.delete('/:username', basicAuth, authorizeUser, async (req, res) => {
     const username = req.user.username;
 
-    // TODO: Delete sets and scores from the user
+    await deleteUser(username);   
 
-    await deleteUser(username);
+    // TODO: Delete scores from the user
+    // Delete sets from the user
+    await deleteSetsByUser(username);
+
     res.status(204).send();
+});
+
+// Get sets from a user
+// TODO: Add logic for visibility
+router.get('/:username/sets', async (req, res) => {
+    const username = req.params['username'];
+    
+    const sets = await getSetsFromUser(username);
+    res.json(sets);
 });
 
 export { router as userController };
