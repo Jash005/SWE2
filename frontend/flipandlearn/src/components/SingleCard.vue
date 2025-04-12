@@ -12,7 +12,7 @@
             <!-- This line is required because the library expects the attribute on the template tag -->
             <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
             <template v-slot:back class="back">
-                <span class="text-back">back - Solution das ist eine längere antwort schon lang genug?</span>
+                <span class="text-back">{{ card?.content || "Keine Antwort" }}</span>
             </template>
         </vue-flip>
     </div>

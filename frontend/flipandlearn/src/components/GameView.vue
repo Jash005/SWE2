@@ -16,7 +16,10 @@
       </section>
 
       <section class="card-area">
-        <SingleCard v-for="card in selectedSet.cards.slice(0, 16)" :key="card.id" :card="card" />
+        <SingleCard 
+          v-for="card in selectedSet.cards.slice(0, 16)" 
+          :key="card.id" 
+          :card="card" />
       </section>
     </article>
   </div>
@@ -41,15 +44,15 @@ export default {
         { id: 1, name: 'Set 1', cards: [{ id: 1, question: 'Frage 1', answer: 'Antwort 1' }] },
         {
           id: 2, name: 'Set 2', cards: [
-            { id: 2, question: 'Frage 2', answer: 'Antwort 2' },
-            { id: 3, question: 'Frage 3', answer: 'Antwort 3' },
-            { id: 4, question: 'Frage 4', answer: 'Antwort 4' },
-            { id: 5, question: 'Frage 5', answer: 'Antwort 5' },
-            { id: 6, question: 'Frage 6', answer: 'Antwort 6' },
-            { id: 7, question: 'Frage 7', answer: 'Antwort 7' },
-            { id: 8, question: 'Frage 8', answer: 'Antwort 8' },
-            { id: 9, question: 'Frage 9', answer: 'Antwort 9' },
-            { id: 10, question: 'Frage 10', answer: 'Antwort 10' }
+            { id: 2, content: 'Antwort 2' },
+            { id: 3, content: 'Antwort 3' },
+            { id: 4, content: 'Antwort 4' },
+            { id: 5, content: 'Antwort 5' },
+            { id: 6, content: 'Antwort 6' },
+            { id: 7, content: 'Antwort 7' },
+            { id: 8, content: 'Antwort 8' },
+            { id: 9, content: 'Antwort 9' },
+            { id: 10, content: 'Antwort 10' }
           ]
         }
       ]
