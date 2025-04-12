@@ -9,7 +9,7 @@
     </article>
 
     <article v-else>
-      <h3>{{ selectedSet.name }}</h3>
+      <h3>{{ selectedSet.title }}</h3>
 
       <section class="match-buttons">
         <MatchButtons />
@@ -17,7 +17,7 @@
 
       <section class="card-area">
         <SingleCard 
-          v-for="card in selectedSet.cards.slice(0, 16)" 
+          v-for="card in transformCards(selectedSet.cardPair)" 
           :key="card.id" 
           :card="card" />
       </section>
@@ -41,24 +41,25 @@ export default {
     return {
       selectedSet: null,
       allUserSets: [
-        { id: 1, name: 'Set 1', cards: [{ id: 1, question: 'Frage 1', answer: 'Antwort 1' }] },
         {
-          id: 2, name: 'Set 2', cards: [
-            { id: 2, content: 'Antwort 2' },
-            { id: 3, content: 'Antwort 3' },
-            { id: 4, content: 'Antwort 4' },
-            { id: 5, content: 'Antwort 5' },
-            { id: 6, content: 'Antwort 6' },
-            { id: 7, content: 'Antwort 7' },
-            { id: 8, content: 'Antwort 8' },
-            { id: 9, content: 'Antwort 9' },
-            { id: 10, content: 'Antwort 10' }
+          id: 0,
+          title: 'Titel für das Set',
+          cardPair: [
+            { pairId: 0, question: 'Frage 0', answer: 'Antwort 0' },
+            { pairId: 1, question: 'Frage 1', answer: 'Antwort 1' }
           ]
         }
       ]
     };
   },
   methods: {
+    transformCards(cardPair) {
+      // Wandelt die Paare in einzelne Karten um
+      return cardPair.flatMap(pair => [
+        { id: `${pair.pairId}-q`, type: 'question', content: pair.question, pairId: pair.pairId },
+        { id: `${pair.pairId}-a`, type: 'answer', content: pair.answer, pairId: pair.pairId }
+      ]);
+    },
     selectSet(set) {
       this.selectedSet = set;
     },
