@@ -11,15 +11,17 @@
     <article v-else>
       <h3>{{ selectedSet.title }}</h3>
 
-      <section class="match-buttons">
-        <MatchButtons />
+      <section class="match-buttons" v-if="flippedCards.length === 2">
+        <MatchButtons @decision="handleUserDecision" />
       </section>
 
       <section class="card-area">
         <SingleCard 
-          v-for="card in transformCards(selectedSet.cardPair)" 
+          v-for="card in selectedSet.cardPair" 
           :key="card.id" 
-          :card="card" />
+          :card="card" 
+          :active-click="card.activeClick"
+          @click="flipCard(card)" />
       </section>
     </article>
   </div>
@@ -45,35 +47,59 @@ export default {
           id: 0,
           title: 'Titel für das Set',
           cardPair: [
-            { pairId: 0, question: 'Frage 0', answer: 'Antwort 0' },
-            { pairId: 1, question: 'Frage 1', answer: 'Antwort 1' }
+            { id: 0, pairId: 0, type: 'question', content: 'Frage 0', flipped: false, activeClick: true },
+            { id: 1, pairId: 0, type: 'answer', content: 'Antwort 0', flipped: false, activeClick: true },
+            { id: 2, pairId: 1, type: 'question', content: 'Frage 1', flipped: false, activeClick: true },
+            { id: 3, pairId: 1, type: 'answer', content: 'Antwort 1', flipped: false, activeClick: true }
           ]
         }
-      ]
+      ],
+      flippedCards: [] // Speichert die aktuell aufgedeckten Karten
     };
   },
   methods: {
-    transformCards(cardPair) {
-      // Wandelt die Paare in einzelne Karten um
-      return cardPair.flatMap(pair => [
-        { id: `${pair.pairId}-q`, type: 'question', content: pair.question, pairId: pair.pairId },
-        { id: `${pair.pairId}-a`, type: 'answer', content: pair.answer, pairId: pair.pairId }
-      ]);
+    flipCard(card) {
+      // Verhindert das Aufdecken von mehr als zwei Karten
+      if (this.flippedCards.length >= 2 || !card.activeClick) {
+        return;
+      }
+
+      // Karte wird aufgedeckt
+      card.flipped = true; // Setzt den Flip-Zustand
+      card.activeClick = false; // Deaktiviert das Klicken auf diese Karte
+      this.flippedCards.push(card);
+
+      // Deaktiviert das Klicken auf alle Karten, wenn zwei Karten aufgedeckt sind
+      if (this.flippedCards.length === 2) {
+        this.selectedSet.cardPair.forEach(c => (c.activeClick = false));
+      }
+
+      console.log('Flipped cards:', this.flippedCards);
     },
-    selectSet(set) {
-      this.selectedSet = set;
+    handleUserDecision(isMatch) {
+      if (this.flippedCards.length === 2) {
+        const [card1, card2] = this.flippedCards;
+        const isCorrectMatch = card1.pairId === card2.pairId && card1.type !== card2.type;
+
+        if (isMatch === isCorrectMatch) {
+          if (isCorrectMatch) {
+            console.log('Richtiges Paar gefunden:', card1, card2);
+          }
+        }
+        this.resetFlippedCards();
+      }
     },
-    deleteSet(set) {
-      console.log('Set gelöscht:', set);
-      confirm('Möchten Sie das Set wirklich löschen?') ? this.allUserSets = this.allUserSets.filter(s => s.id !== set.id) : null;
+    resetFlippedCards() {
+      setTimeout(() => {
+        this.flippedCards.forEach(card => {
+          card.activeClick = true; // Aktiviert das Klicken wieder
+        });
+        this.flippedCards = [];
+        this.selectedSet.cardPair.forEach(c => (c.activeClick = true)); // Aktiviert das Klicken für alle Karten
+      }, 1000);
     },
     playSet(set) {
-      console.log('Set spielen:', set);
       this.selectedSet = set;
-    },
-    editSet(set) {
-      console.log('Set bearbeiten:', set);
-      this.$router.push({ path: '/card-create', query: { setId: set.id } });
     }
   }
 };

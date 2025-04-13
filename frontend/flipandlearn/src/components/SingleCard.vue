@@ -1,6 +1,11 @@
 <template>
     <div class="single-card">
-        <vue-flip v-model="modelCard" :active-click="true" :active-hover="false" :flip-time="0.5" width="100%"
+        <vue-flip 
+            v-model="modelCard" 
+            :active-click="activeClick"
+            :active-hover="false"
+            :flip-time="0.5"
+            width="100%"
             height="100%">
             <!-- This line is required because the library expects the attribute on the template tag -->
             <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
@@ -31,13 +36,23 @@ export default {
         card: {
             type: Object,
             required: true
-        }
+        },
+        activeClick: {
+            type: Boolean,
+            default: true
+        },
     },
-    methods: {
-        handleClick() {
-            this.modelCard = true;
-        }
-    }
+    // data() {
+    //     return {
+    //         // modelCard: this.flipped, // Bindet den Flip-Zustand
+    //         // activeClick: this.activeClick // Steuert, ob die Karte durch Klicken geflippt werden kann
+    //     };
+    // },
+    // methods: {
+    //     handleClick() {
+    //         this.activeClick = false;
+    //     }
+    // }
 };
 </script>
 
