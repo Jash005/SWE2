@@ -50,31 +50,34 @@ export default {
             { id: 0, pairId: 0, type: 'question', content: 'Frage 0', flipped: false, activeClick: true },
             { id: 1, pairId: 0, type: 'answer', content: 'Antwort 0', flipped: false, activeClick: true },
             { id: 2, pairId: 1, type: 'question', content: 'Frage 1', flipped: false, activeClick: true },
-            { id: 3, pairId: 1, type: 'answer', content: 'Antwort 1', flipped: false, activeClick: true }
+            { id: 3, pairId: 1, type: 'answer', content: 'Antwort 1', flipped: false, activeClick: true },
+            { id: 4, pairId: 2, type: 'question', content: 'Frage 2', flipped: false, activeClick: true },
+            { id: 5, pairId: 2, type: 'answer', content: 'Antwort 2', flipped: false, activeClick: true },
+            { id: 6, pairId: 3, type: 'question', content: 'Frage 3', flipped: false, activeClick: true },
+            { id: 7, pairId: 3, type: 'answer', content: 'Antwort 3', flipped: false, activeClick: true },
+            { id: 8, pairId: 4, type: 'question', content: 'Frage 4', flipped: false, activeClick: true },
+            { id: 9, pairId: 4, type: 'answer', content: 'Antwort 4', flipped: false, activeClick: true }
           ]
         }
       ],
-      flippedCards: [] // Speichert die aktuell aufgedeckten Karten
+      flippedCards: []
     };
   },
   methods: {
+    playSet(set) {
+      this.selectedSet = set;
+    },
     flipCard(card) {
-      // Verhindert das Aufdecken von mehr als zwei Karten
       if (this.flippedCards.length >= 2 || !card.activeClick) {
         return;
       }
-
-      // Karte wird aufgedeckt
-      card.flipped = true; // Setzt den Flip-Zustand
-      card.activeClick = false; // Deaktiviert das Klicken auf diese Karte
+      card.flipped = true;
+      card.activeClick = false;
       this.flippedCards.push(card);
 
-      // Deaktiviert das Klicken auf alle Karten, wenn zwei Karten aufgedeckt sind
       if (this.flippedCards.length === 2) {
         this.selectedSet.cardPair.forEach(c => (c.activeClick = false));
       }
-
-      console.log('Flipped cards:', this.flippedCards);
     },
     handleUserDecision(isMatch) {
       if (this.flippedCards.length === 2) {
@@ -84,22 +87,39 @@ export default {
         if (isMatch === isCorrectMatch) {
           if (isCorrectMatch) {
             console.log('Richtiges Paar gefunden:', card1, card2);
+            this.selectedSet.cardPair = this.selectedSet.cardPair.filter(
+              card => card.id !== card1.id && card.id !== card2.id
+            );
           }
         }
-        this.resetFlippedCards();
+
+        if(this.selectedSet.cardPair.length === 0) {
+          console.log('Alle Paare gefunden!');
+          this.selectedSet = null;
+          this.finishGame();
+        } else {
+          this.resetFlippedCards();
+        }
+
       }
     },
     resetFlippedCards() {
       setTimeout(() => {
         this.flippedCards.forEach(card => {
-          card.activeClick = true; // Aktiviert das Klicken wieder
+          card.activeClick = true;
+          card.flipped = false;
         });
         this.flippedCards = [];
-        this.selectedSet.cardPair.forEach(c => (c.activeClick = true)); // Aktiviert das Klicken für alle Karten
-      }, 1000);
+        this.selectedSet.cardPair.forEach(c => (c.activeClick = true));
+      }, 100);
     },
-    playSet(set) {
-      this.selectedSet = set;
+
+    finishGame() {
+      console.log('Spiel beendet!');
+      this.selectedSet = null;
+      this.flippedCards = [];
+
+      this.$router.push({ name: 'GameResult' });
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
     <div class="single-card">
         <vue-flip 
-            v-model="modelCard" 
+            v-model="localFlipped" 
             :active-click="activeClick"
             :active-hover="false"
             :flip-time="0.5"
@@ -12,7 +12,6 @@
             <template v-slot:front class="front">
                 <span class="material-symbols-outlined">question_mark</span>
             </template>
-
 
             <!-- This line is required because the library expects the attribute on the template tag -->
             <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
@@ -26,7 +25,6 @@
 <script>
 import { VueFlip } from 'vue-flip';
 
-//TODO logic for memory functionality (flip two cards and check if they are the same)
 export default {
     name: 'SingleCard',
     components: {
@@ -40,19 +38,26 @@ export default {
         activeClick: {
             type: Boolean,
             default: true
-        },
+        }
     },
-    // data() {
-    //     return {
-    //         // modelCard: this.flipped, // Bindet den Flip-Zustand
-    //         // activeClick: this.activeClick // Steuert, ob die Karte durch Klicken geflippt werden kann
-    //     };
-    // },
-    // methods: {
-    //     handleClick() {
-    //         this.activeClick = false;
-    //     }
-    // }
+    data() {
+        return {
+            localFlipped: this.card.flipped // Lokale Kopie der flipped-Eigenschaft
+        };
+    },
+    watch: {
+        // Überwacht Änderungen an der Prop und aktualisiert die lokale Kopie
+        'card.flipped': {
+            immediate: true,
+            handler(newValue) {
+                this.localFlipped = newValue;
+            }
+        },
+        // Überwacht Änderungen an der lokalen Kopie und gibt sie an die übergeordnete Komponente weiter
+        localFlipped(newValue) {
+            this.$emit('update:flipped', newValue);
+        }
+    }
 };
 </script>
 
