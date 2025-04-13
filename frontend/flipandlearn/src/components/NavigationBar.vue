@@ -27,9 +27,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  gap: 40px;
-  min-height: 100vh;
+  padding: 5px;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -47,8 +45,7 @@ export default {
 }
 
 .logo-container h1 {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+  margin: 10px;
   color: var(--navbar-font);
   font-size: 26px;
   letter-spacing: 4px;
@@ -78,5 +75,19 @@ a {
 a:hover {
   color: var(--navbar-font-hover);
 }
+
+@media (min-width: 768px) {
+  #navigation-bar {
+    min-height: 100vh;
+    gap: 40px;
+    padding: 20px;
+  }
+  .logo-container h1 {
+    margin: 30px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+}
+  
 
 </style>

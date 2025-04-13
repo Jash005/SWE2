@@ -32,9 +32,6 @@ export default {
   min-height: 5vh;
   background-color: var(--background);
   color: var(--general-font);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #content {
@@ -47,7 +44,13 @@ export default {
     flex-direction: row;
   }
 
+  #content {
+      padding: 1vh 1vw;
+  }
+
   #navigation {
+    display: flex;
+    justify-content: center;
     min-height: 100vh;
   }
 }
