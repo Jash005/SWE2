@@ -54,27 +54,24 @@ export default {
           ]
         }
       ],
-      flippedCards: [] // Speichert die aktuell aufgedeckten Karten
+      flippedCards: []
     };
   },
   methods: {
+    playSet(set) {
+      this.selectedSet = set;
+    },
     flipCard(card) {
-      // Verhindert das Aufdecken von mehr als zwei Karten
       if (this.flippedCards.length >= 2 || !card.activeClick) {
         return;
       }
-
-      // Karte wird aufgedeckt
-      card.flipped = true; // Setzt den Flip-Zustand
-      card.activeClick = false; // Deaktiviert das Klicken auf diese Karte
+      card.flipped = true;
+      card.activeClick = false;
       this.flippedCards.push(card);
 
-      // Deaktiviert das Klicken auf alle Karten, wenn zwei Karten aufgedeckt sind
       if (this.flippedCards.length === 2) {
         this.selectedSet.cardPair.forEach(c => (c.activeClick = false));
       }
-
-      console.log('Flipped cards:', this.flippedCards);
     },
     handleUserDecision(isMatch) {
       if (this.flippedCards.length === 2) {
@@ -84,6 +81,9 @@ export default {
         if (isMatch === isCorrectMatch) {
           if (isCorrectMatch) {
             console.log('Richtiges Paar gefunden:', card1, card2);
+            this.selectedSet.cardPair = this.selectedSet.cardPair.filter(
+              card => card.id !== card1.id && card.id !== card2.id
+            );
           }
         }
         this.resetFlippedCards();
@@ -92,15 +92,13 @@ export default {
     resetFlippedCards() {
       setTimeout(() => {
         this.flippedCards.forEach(card => {
-          card.activeClick = true; // Aktiviert das Klicken wieder
+          card.activeClick = true;
+          card.flipped = false;
         });
         this.flippedCards = [];
-        this.selectedSet.cardPair.forEach(c => (c.activeClick = true)); // Aktiviert das Klicken für alle Karten
-      }, 1000);
+        this.selectedSet.cardPair.forEach(c => (c.activeClick = true));
+      }, 100); 
     },
-    playSet(set) {
-      this.selectedSet = set;
-    }
   }
 };
 </script>
