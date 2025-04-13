@@ -11,7 +11,10 @@
     <article v-else>
       <h3>{{ selectedSet.title }}</h3>
 
-      <section class="match-buttons" v-if="flippedCards.length === 2">
+      <section 
+        class="match-buttons" 
+        :class="{ hidden: flippedCards.length !== 2 }"
+      >
         <MatchButtons @decision="handleUserDecision" />
       </section>
 
@@ -21,6 +24,7 @@
           :key="card.id" 
           :card="card" 
           :active-click="card.activeClick"
+          v-bind:class="{ hidden: card.hidden }"
           @click="flipCard(card)" />
       </section>
     </article>
@@ -64,9 +68,13 @@ export default {
     };
   },
   methods: {
+
+    //--- set logic --//
     playSet(set) {
       this.selectedSet = set;
     },
+
+    //--- memory game logic --//
     flipCard(card) {
       if (this.flippedCards.length >= 2 || !card.activeClick) {
         return;
@@ -87,20 +95,18 @@ export default {
         if (isMatch === isCorrectMatch) {
           if (isCorrectMatch) {
             console.log('Richtiges Paar gefunden:', card1, card2);
-            this.selectedSet.cardPair = this.selectedSet.cardPair.filter(
-              card => card.id !== card1.id && card.id !== card2.id
-            );
+            card1.hidden = true;
+            card2.hidden = true;
           }
         }
 
-        if(this.selectedSet.cardPair.length === 0) {
+        if (this.selectedSet.cardPair.every(card => card.hidden)) {
           console.log('Alle Paare gefunden!');
           this.selectedSet = null;
           this.finishGame();
         } else {
           this.resetFlippedCards();
         }
-
       }
     },
     resetFlippedCards() {
@@ -155,6 +161,28 @@ h3 {
   gap: 15px;
   padding: 20px;
   justify-content: center;
+}
+
+.card-area > * {
+  grid-column: span 1; /* Jede Karte nimmt genau eine Spalte ein */
+  grid-row: span 1;    /* Jede Karte nimmt genau eine Zeile ein */
+  visibility: visible; /* Standardmäßig sichtbar */
+}
+
+.card-area > .hidden {
+  visibility: hidden; /* Karten, die entfernt werden, bleiben unsichtbar */
+}
+
+.match-buttons {
+  margin-bottom: 20px; /* Abstand nach unten */
+  height: 50px; /* Feste Höhe, um Platz zu reservieren */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.match-buttons.hidden {
+  visibility: hidden; /* Unsichtbar, aber Platz bleibt reserviert */
 }
 
 @media (min-width: 768px) {
