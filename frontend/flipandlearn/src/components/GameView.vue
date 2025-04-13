@@ -50,7 +50,13 @@ export default {
             { id: 0, pairId: 0, type: 'question', content: 'Frage 0', flipped: false, activeClick: true },
             { id: 1, pairId: 0, type: 'answer', content: 'Antwort 0', flipped: false, activeClick: true },
             { id: 2, pairId: 1, type: 'question', content: 'Frage 1', flipped: false, activeClick: true },
-            { id: 3, pairId: 1, type: 'answer', content: 'Antwort 1', flipped: false, activeClick: true }
+            { id: 3, pairId: 1, type: 'answer', content: 'Antwort 1', flipped: false, activeClick: true },
+            { id: 4, pairId: 2, type: 'question', content: 'Frage 2', flipped: false, activeClick: true },
+            { id: 5, pairId: 2, type: 'answer', content: 'Antwort 2', flipped: false, activeClick: true },
+            { id: 6, pairId: 3, type: 'question', content: 'Frage 3', flipped: false, activeClick: true },
+            { id: 7, pairId: 3, type: 'answer', content: 'Antwort 3', flipped: false, activeClick: true },
+            { id: 8, pairId: 4, type: 'question', content: 'Frage 4', flipped: false, activeClick: true },
+            { id: 9, pairId: 4, type: 'answer', content: 'Antwort 4', flipped: false, activeClick: true }
           ]
         }
       ],
@@ -86,7 +92,15 @@ export default {
             );
           }
         }
-        this.resetFlippedCards();
+
+        if(this.selectedSet.cardPair.length === 0) {
+          console.log('Alle Paare gefunden!');
+          this.selectedSet = null;
+          this.finishGame();
+        } else {
+          this.resetFlippedCards();
+        }
+
       }
     },
     resetFlippedCards() {
@@ -97,8 +111,16 @@ export default {
         });
         this.flippedCards = [];
         this.selectedSet.cardPair.forEach(c => (c.activeClick = true));
-      }, 100); 
+      }, 100);
     },
+
+    finishGame() {
+      console.log('Spiel beendet!');
+      this.selectedSet = null;
+      this.flippedCards = [];
+
+      this.$router.push({ name: 'GameResult' });
+    }
   }
 };
 </script>
