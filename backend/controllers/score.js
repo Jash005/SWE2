@@ -10,8 +10,8 @@ import {
 const router = express.Router();
 
 function validateScore(req, res, next) {
-    const { username, score, quizId } = req.body;
-    if (typeof username === 'string' && typeof score === 'number' && typeof quizId === 'number') {
+    const { username, score, setId } = req.body;
+    if (typeof username === 'string' && typeof score === 'number' && typeof setId === 'string') {
         next();
     } else {
         res.status(400).json({ message: 'username or score is invalid or missing' });
