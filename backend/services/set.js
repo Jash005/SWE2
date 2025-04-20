@@ -27,7 +27,7 @@ export function validateSetFields(set) {
 
 // Function to validate title
 export function validateTitle(title) {
-    const pattern = /^[a-zA-Z0-9\s\-\_\,\.\!\?\'\(\)\+\/\&]{3,100}$/;
+    const pattern = /^[a-zA-Z0-9\s\-\_\,\.\!\?\'\(\)\+\/\&äöüÄÖÜß]{3,100}$/;
 
     if(!title || !title.trim()) {
         return { success: false, message: 'Title is required.'};
@@ -42,7 +42,7 @@ export function validateTitle(title) {
 
 // Function to validate card pair
 export function validateCardPair(cardPair) {
-    const pattern = /^[a-zA-Z0-9\s\-\_\,\.\!\?\'\(\)\+\/\&]{3,70}$/;
+    const pattern = /^[a-zA-Z0-9\s\-\_\,\.\!\?\'\(\)\+\/\&%äöüÄÖÜß]{3,70}$/;
 
     if(cardPair.length < 2) {
         return { success: false, message: 'At least 2 questions are required.'};
