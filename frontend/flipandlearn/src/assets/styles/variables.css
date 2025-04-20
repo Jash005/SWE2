@@ -39,4 +39,6 @@
     --input-field-focus: #ddd9c6;
     --input-field-border: #668a82;
     --label-font: #fdfaf1;
+    --input-card-background: #c6ffbf;
+    --error-color: red;
 }

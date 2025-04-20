@@ -1,11 +1,11 @@
 <template>
   <div>
-       <CardInputField @add-card="addNewCard" />
+    <CardInputField @add-card="addNewCard" />
 
-    <section v-if="allExistingCards.length > 0">
+    <section v-if="set && set.cardPair && set.cardPair.length > 0">
       <h2>Vorhandene Karten:</h2>
-      <div class="card-container">
-        <SingleCard v-for="card in allExistingCards" :key="card.id" :card="card" />
+      <div class="card-wrapper">
+        <CardPairView v-for="card in set.cardPair" :key="card.id" :card="card" />
       </div>
     </section>
     <section v-else>
@@ -15,33 +15,31 @@
 </template>
 
 <script>
-import SingleCard from './SingleCard.vue';
 import CardInputField from './CardInputField.vue';
+import CardPairView from './CardPairView.vue';
 
 export default {
   name: 'CardCreateView',
   components: {
-    SingleCard,
     CardInputField,
+    CardPairView
   },
   data() {
     return {
-      allExistingCards: [
-        { id: 2, question: 'Frage 2', answer: 'Antwort 2' },
-        { id: 3, question: 'Frage 3', answer: 'Antwort 3' },
-        { id: 4, question: 'Frage 4', answer: 'Antwort 4' },
-        { id: 5, question: 'Frage 5', answer: 'Antwort 5' },
-        { id: 6, question: 'Frage 6', answer: 'Antwort 6' },
-        { id: 7, question: 'Frage 7', answer: 'Antwort 7' },
-        { id: 8, question: 'Frage 8', answer: 'Antwort 8' },
-        { id: 9, question: 'Frage 9', answer: 'Antwort 9' },
-        { id: 10, question: 'Frage 10', answer: 'Antwort 10' },
-      ] // backend data needs
+      index: 0,
+      set: {
+        id: null,
+        title: "",
+        cardPair: []
+      },
     };
   },
   methods: {
     addNewCard(newCard) {
-      this.allExistingCards.push({ id: Date.now(), ...newCard });
+      this.set.cardPair.unshift({ id: this.index++, ...newCard });
+    },
+    addSet(){
+
     }
   }
 };
@@ -59,16 +57,14 @@ h2 {
   text-align: center;
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+.card-wrapper {
+  margin: auto;
   margin-top: 20px;
+  max-width: 500px;
 }
 
 section {
-  background-color: var(--general-font);
+  /* background-color: var(--general-font); */
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
