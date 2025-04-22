@@ -1,14 +1,18 @@
 <template>
   <div>
     <CardInputField
+      v-if="set"
       :set="set"
       @update-title="onUpdateTitle"
       @add-card="onAddNewCard"
-      @create-set="onCreateSet"
+      @create-set="onCreateOrEditSet"
     />
 
     <div v-if="errors.formError" class="error-message">
       {{ errors.formError }}
+    </div>
+    <div v-if="errors.apiError" class="error-message">
+      {{ errors.apiError }}
     </div>
     <div v-if="success.creationSuccess" class="success-message">
       {{ success.creationSuccess }}
@@ -44,17 +48,42 @@ export default {
     CardInputField,
     CardPairView,
   },
+  async mounted() { 
+    const id = this.$route.query.setId
+    if(id) {
+      this.editingSet = true    // Set is being edited
+
+      // Fetch the set data from the API
+      try {
+        const response = await api.get(`sets/${id}`)
+        const item = response.data;
+
+        if(item) {
+          // Set the set model with the fetched data
+          this.set = { ...item }
+        }
+      } catch (error) {
+        this.editingSet = false;
+        // TODO: Show error message to user
+        this.errors.apiError =
+          "Fehler beim Laden des Sets. Bitte versuchen Sie es erneut.";
+        console.error('Error fetching item:', error)
+      }
+    }
+  },
   data() {
     return {
       index: 0,
       set: {
-        id: null,
+        _id: null,
         title: "",
         cardPair: [],
       },
+      editingSet: false,
       // Error messages for validation
       errors: {
         formError: "",
+        apiError: "",
       },
       success: {
         creationSuccess: "",
@@ -68,31 +97,51 @@ export default {
     onAddNewCard(newCard) {
       this.set.cardPair.unshift({ pairId: this.index++, ...newCard });
     },
-    async onCreateSet(newSet) {
-      console.log(newSet);
+    async onCreateOrEditSet(newSet) {
+      console.log(newSet);    // TODO: Remove this line
       // TODO: Add login data from storage
       const username = "aaaa";
       const password = "aaaa123!";
       const token = btoa(`${username}:${password}`);
+
+      let response;
       try {
-        const response = await api.post("/sets", newSet, {
+        if(this.editingSet) {
+          // Update existing set
+          response = await api.patch(`/sets/${this.set._id}`, newSet, {
+            headers: {
+              Authorization: `Basic ${token}`,
+            },
+          });
+        }
+        else {
+          // Create new set
+          response = await api.post("/sets", newSet, {
           headers: {
             Authorization: `Basic ${token}`,
           },
         });
+        }
         
-        // TODO: Show success message to user maybe with a notification
-        this.success.creationSuccess =
-          "Set erfolgreich erstellt.";
-        console.log("Set successfully saved:", response.data);
-
-        // TODO: check if needed
-        // Reset set model
-        this.set = {
-          id: null,
-          title: "",
-          cardPair: [],
-        };
+        if(response.status == 200) {
+          // TODO: Show success message to user maybe with a notification
+          this.success.creationSuccess =
+           "Set erfolgreich " + (this.editingSet ? "aktualisiert" : "erstellt") + ".";
+          console.log("Set successfully saved:", response.data);
+          
+          this.editingSet = false;
+          // TODO: check if needed
+          // Reset set model
+          this.set = {
+            _id: null,
+            title: "",
+            cardPair: [],
+          };
+        }
+        else {
+          this.errors.apiError =
+            "Fehler beim Speichern des Sets. Bitte versuchen Sie es erneut.";
+        }      
       } catch (error) {
         console.error("Error saving set:", error);
         // Show error message to user

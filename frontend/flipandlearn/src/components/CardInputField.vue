@@ -50,7 +50,7 @@
         <button type="button" class="card-btn" @click="submitCard">
           Erstellen
         </button>
-        <button type="submit" class="create-set-btn">Fertig</button>
+        <button type="submit" class="create-set-btn">{{ set._id ? "Speichern" : "Fertig" }}</button>
       </div>
     </form>
   </div>
@@ -64,6 +64,17 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  watch: {
+    // Watcher to update the set model when the set prop changes
+    set: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal && newVal._id) {
+          this.setModel = { ...newVal };
+        }
+      }
+    }
   },
   data() {
     return {
@@ -112,13 +123,13 @@ export default {
     async addSet() {
       if (this.currentQuestion.trim() || this.currentAnswer.trim()) {
         this.warning =
-          "Möchten Sie den Kartenpaar erstellen? Der Kartenpaar wird nicht gespeichert.";
+          "Möchten Sie das Kartenpaar erstellen? Das Kartenpaar wird nicht gespeichert.";
         return;
       }
       if (this.validateSet()) {
         this.$emit("create-set", this.setModel);
         this.setModel = {
-          id: null,
+          _id: null,
           title: "",
           cardPair: [],
         };
@@ -290,7 +301,7 @@ textarea {
 .warning-message {
   color: orange;
   margin-top: 10px;
-  background: #fad288;
+  background: rgb(255, 228, 178);
   padding: 10px;
   min-height: 1.2em;
   text-align: left;

@@ -1,21 +1,25 @@
 <template>
   <div class="card-container">
-    <textarea
-      v-model="cardModel.question"
-      :readonly="editCardPairId !== card.pairId"
-      :class="{ 'error-card': errors?.question }"
-      class="card"
-    />
-    <div v-if="errors?.question" class="error-message">
-      {{ errors.question }}
+    <div class="card-wrapper">
+      <textarea
+        v-model="cardModel.question"
+        :readonly="editCardPairId !== card.pairId"
+        :class="{ 'error-card': errors?.question }"
+        class="card"
+      />
+      <div v-if="errors?.question" class="error-message">
+        {{ errors.question }}
+      </div>
     </div>
-    <textarea
-      v-model="cardModel.answer"
-      :readonly="editCardPairId !== card.pairId"
-      :class="{ 'error-card': errors?.answer }"
-      class="card"
-    />
-    <div v-if="errors?.answer" class="error-message">{{ errors.answer }}</div>
+    <div class="card-wrapper">
+      <textarea
+        v-model="cardModel.answer"
+        :readonly="editCardPairId !== card.pairId"
+        :class="{ 'error-card': errors?.answer }"
+        class="card"
+      />
+      <div v-if="errors?.answer" class="error-message">{{ errors.answer }}</div>
+    </div>
 
     <div class="action-wrapper">
       <span
@@ -119,14 +123,19 @@ export default {
 .card-container {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 1rem;
   margin-top: 20px;
   max-width: 500px;
   width: 100%;
 }
-.card {
+.card-wrapper {
   flex: 1 1 calc(39% - 0.5rem);
+  display: flex;
+  flex-direction: column;
+}
+.card {
   min-height: 100px;
   padding: 1rem;
   outline: 5px solid var(--general-font-header);
@@ -174,7 +183,7 @@ export default {
   .card-container {
     margin-top: 30px;
   }
-  .card {
+  .card-wrapper {
     flex: 1 1 100%;
   }
 
@@ -184,5 +193,14 @@ export default {
     justify-content: center;
     align-items: center;
   }
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  background: #ffe0e0;
+  padding: 10px;
+  min-height: 1.2em;
+  text-align: left;
 }
 </style>
