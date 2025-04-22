@@ -1,11 +1,30 @@
 <template>
   <div>
-    <CardInputField @add-card="addNewCard" />
+    <CardInputField
+      :set="set"
+      @update-title="onUpdateTitle"
+      @add-card="onAddNewCard"
+      @create-set="onCreateSet"
+    />
+
+    <div v-if="errors.formError" class="error-message">
+      {{ errors.formError }}
+    </div>
+    <div v-if="success.creationSuccess" class="success-message">
+      {{ success.creationSuccess }}
+    </div>
 
     <section v-if="set && set.cardPair && set.cardPair.length > 0">
-      <h2>Vorhandene Karten:</h2>
+      <h1>{{ set.title }}</h1>
+      <h2>Vorhandene Karten</h2>
       <div class="card-wrapper">
-        <CardPairView v-for="card in set.cardPair" :key="card.id" :card="card" />
+        <CardPairView
+          v-for="card in set.cardPair"
+          :key="card.pairId"
+          :card="card"
+          @edit-card="onEditCard"
+          @delete-card="onDeleteCard"
+        />
       </div>
     </section>
     <section v-else>
@@ -15,14 +34,15 @@
 </template>
 
 <script>
-import CardInputField from './CardInputField.vue';
-import CardPairView from './CardPairView.vue';
+import CardInputField from "./CardInputField.vue";
+import CardPairView from "./CardPairView.vue";
+import api from "../plugins/axios.js";
 
 export default {
-  name: 'CardCreateView',
+  name: "CardCreateView",
   components: {
     CardInputField,
-    CardPairView
+    CardPairView,
   },
   data() {
     return {
@@ -30,18 +50,81 @@ export default {
       set: {
         id: null,
         title: "",
-        cardPair: []
+        cardPair: [],
+      },
+      // Error messages for validation
+      errors: {
+        formError: "",
+      },
+      success: {
+        creationSuccess: "",
       },
     };
   },
   methods: {
-    addNewCard(newCard) {
-      this.set.cardPair.unshift({ id: this.index++, ...newCard });
+    onUpdateTitle(newTitle) {
+      this.set.title = newTitle;
     },
-    addSet(){
+    onAddNewCard(newCard) {
+      this.set.cardPair.unshift({ pairId: this.index++, ...newCard });
+    },
+    async onCreateSet(newSet) {
+      console.log(newSet);
+      // TODO: Add login data from storage
+      const username = "aaaa";
+      const password = "aaaa123!";
+      const token = btoa(`${username}:${password}`);
+      try {
+        const response = await api.post("/sets", newSet, {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        });
+        
+        // TODO: Show success message to user maybe with a notification
+        this.success.creationSuccess =
+          "Set erfolgreich erstellt.";
+        console.log("Set successfully saved:", response.data);
 
-    }
-  }
+        // TODO: check if needed
+        // Reset set model
+        this.set = {
+          id: null,
+          title: "",
+          cardPair: [],
+        };
+      } catch (error) {
+        console.error("Error saving set:", error);
+        // Show error message to user
+        this.errors.formError =
+          "Fehler beim Speichern des Sets. Bitte versuchen Sie es erneut.";
+      }
+    },
+    onEditCard(editedCardPair) {
+      const index = this.set.cardPair.findIndex(
+        (card) => card.pairId === editedCardPair.pairId
+      );
+
+      if (index > -1) {
+        this.set.cardPair[index].question = editedCardPair.question;
+        this.set.cardPair[index].answer = editedCardPair.answer;
+      } else {
+        // TODO: Show error message
+        console.log("Error: Card not found.");
+      }
+    },
+    onDeleteCard(cardPairId) {
+      const index = this.set.cardPair.findIndex(
+        (card) => card.pairId === cardPairId
+      );
+      if (index > -1) {
+        this.set.cardPair.splice(index, 1);
+      } else {
+        // TODO: Show error message
+        console.log("Error: Card not found.");
+      }
+    },
+  },
 };
 </script>
 
@@ -70,5 +153,24 @@ section {
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
   max-width: 1000px;
   margin: 40px auto;
+}
+
+.error-message {
+  color: red;
+  background: #ffe0e0;
+  padding: 10px;
+  min-height: 1.2em;
+  text-align: left;
+  max-width: 500px;
+  margin: auto;
+}
+.success-message {
+  color: green;
+  background: rgb(179, 255, 179);
+  padding: 10px;
+  min-height: 1.2em;
+  text-align: left;
+  max-width: 500px;
+  margin: auto;
 }
 </style>
