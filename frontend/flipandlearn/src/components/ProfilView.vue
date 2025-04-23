@@ -8,14 +8,35 @@
       <section class="card-area" v-if="allUserSets || allUserSets != 0">
         <router-link to="/card-create" class="create-button">+ Set erstellen</router-link>
         <div>
-          <SingleSet v-for="set in allUserSets" :key="set.id" :set="set" @delete="deleteSet" @play="playSet"
-                     @edit="editSet" />
+          <SingleSet
+            v-for="set in allUserSets"
+            :key="set.id"
+            :set="set"
+            @delete="deleteSet"
+            @play="playSet"
+            @edit="editSet"
+          />
         </div>
       </section>
 
       <section class="card-area" v-else>
         <router-link to="/card-create" class="create-button">+ Set erstellen</router-link>
         <h1>no sets available</h1>
+      </section>
+
+      <section class="recent-games">
+        <h4>Letzte Spiele</h4>
+        <div class="recent-games-list">
+          <div
+            v-for="game in recentGames"
+            :key="game.id"
+            class="recent-game-item"
+            @click="playSet(game)"
+          >
+            <span class="game-name">{{ game.name }}</span>
+            <span class="game-score">{{ game.score }} Punkte</span>
+          </div>
+        </div>
       </section>
     </article>
   </div>
@@ -35,25 +56,34 @@ export default {
       allUserSets: [
         { id: 1, name: 'Set 1', cards: [{ id: 1, question: 'Frage 1', answer: 'Antwort 1' }] },
         {
-          id: 2, name: 'Set 2', cards: [
+          id: 2,
+          name: 'Set 2',
+          cards: [
             { id: 2, question: 'Frage 2', answer: 'Antwort 2' },
-            { id: 3, question: 'Frage 3', answer: 'Antwort 3' }
-          ]
-        }
+            { id: 3, question: 'Frage 3', answer: 'Antwort 3' },
+          ],
+        },
+      ],
+      recentGames: [
+        { id: 1, name: 'Set 1', score: 85 },
+        { id: 2, name: 'Set 2', score: 90 },
+        { id: 3, name: 'Set 3', score: 75 },
       ],
     };
   },
   methods: {
     deleteSet(set) {
-      confirm('Möchten Sie das Set wirklich löschen?') ? this.allUserSets = this.allUserSets.filter(s => s.id !== set.id) : null;
+      confirm('Möchten Sie das Set wirklich löschen?')
+        ? (this.allUserSets = this.allUserSets.filter((s) => s.id !== set.id))
+        : null;
     },
     playSet(set) {
       this.$router.push({ path: '/game', query: { setId: set.id } });
     },
     editSet(set) {
-      this.$router.push({path: '/card-create', query: {setId: set.id}});
-    }
-  }
+      this.$router.push({ path: '/card-create', query: { setId: set.id } });
+    },
+  },
 };
 </script>
 
@@ -105,5 +135,45 @@ h4 {
 .create-button:hover {
   background-color: var(--button-hover);
   transform: translateY(-2px);
+}
+
+
+.recent-games {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.recent-games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.recent-game-item {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  padding: 10px 15px;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recent-game-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.game-name {
+  font-weight: 600;
+  color: var(--general-font);
+}
+
+.game-score {
+  font-weight: 500;
+  color: var(--secondary-font);
 }
 </style>
