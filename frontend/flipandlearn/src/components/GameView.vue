@@ -61,29 +61,40 @@ export default {
     //--- set logic --//
     async playSet(set) {
       try {
-        const response = await api.get(`/sets/${set._id}`);
+        const response = await api.get(`/sets/${set._id}/random?numCards=8`);
         const fetchedSet = response.data;
+
+        const shuffle = (array) => {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        };
+
         this.selectedSet = {
           id: set.id,
           title: fetchedSet.title,
-          cardPair: fetchedSet.cardPair.flatMap((pair, pairIndex) => [
-            {
-              id: pairIndex * 2,
-              pairId: pair.pairId,
-              type: 'question',
-              content: pair.question,
-              flipped: false,
-              activeClick: true
-            },
-            {
-              id: pairIndex * 2 + 1,
-              pairId: pair.pairId,
-              type: 'answer',
-              content: pair.answer,
-              flipped: false,
-              activeClick: true
-            }
-          ])
+          cardPair: shuffle(
+            fetchedSet.cardPair.flatMap((pair, pairIndex) => [
+              {
+                id: pairIndex * 2,
+                pairId: pair.pairId,
+                type: 'question',
+                content: pair.question,
+                flipped: false,
+                activeClick: true
+              },
+              {
+                id: pairIndex * 2 + 1,
+                pairId: pair.pairId,
+                type: 'answer',
+                content: pair.answer,
+                flipped: false,
+                activeClick: true
+              }
+            ])
+          )
         };
       } catch (error) {
         this.errors.apiError = "Fehler beim Laden des ausgewählten Sets. Bitte versuchen Sie es erneut.";
