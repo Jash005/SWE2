@@ -123,7 +123,7 @@ export default {
         });
         }
         
-        if(response.status == 200) {
+        if(response.status == 201) {
           // TODO: Show success message to user maybe with a notification
           this.success.creationSuccess =
            "Set erfolgreich " + (this.editingSet ? "aktualisiert" : "erstellt") + ".";
