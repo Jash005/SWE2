@@ -11,21 +11,13 @@
     <article v-else>
       <h3>{{ selectedSet.title }}</h3>
 
-      <section 
-        class="match-buttons" 
-        :class="{ hidden: flippedCards.length !== 2 }"
-      >
+      <section class="match-buttons" :class="{ hidden: flippedCards.length !== 2 }">
         <MatchButtons @decision="handleUserDecision" />
       </section>
 
       <section class="card-area">
-        <SingleCard 
-          v-for="card in selectedSet.cardPair" 
-          :key="card.id" 
-          :card="card" 
-          :active-click="card.activeClick"
-          v-bind:class="{ hidden: card.hidden }"
-          @click="flipCard(card)" />
+        <SingleCard v-for="card in selectedSet.cardPair.slice(0, 16)" :key="card.id" :card="card"
+          :active-click="card.activeClick" v-bind:class="{ hidden: card.hidden }" @click="flipCard(card)" />
       </section>
     </article>
   </div>
@@ -35,6 +27,7 @@
 import SingleSetPlay from './SingleSetPlay.vue';
 import SingleCard from './SingleCard.vue';
 import MatchButtons from './MatchButtons.vue';
+import api from '../plugins/axios.js';
 
 export default {
   name: 'GameView',
@@ -43,48 +36,59 @@ export default {
     SingleCard,
     MatchButtons
   },
+  async mounted() {
+    // Fetch all sets from the API
+    try {
+      const response = await api.get('/sets');
+      this.allUserSets = response.data;
+    } catch (error) {
+      this.errors.apiError = "Fehler beim Laden der Sets. Bitte versuchen Sie es erneut.";
+      console.error('Error fetching sets:', error);
+    }
+  },
+
   data() {
     return {
       selectedSet: null,
-      allUserSets: [
-        {
-          id: 0,
-          title: 'Geographie',
-          cardPair: [
-            { id: 0, pairId: 0, type: 'question', content: 'Was ist die Hauptstadt von Deutschland?', flipped: false, activeClick: true },
-            { id: 1, pairId: 0, type: 'answer', content: 'Berlin', flipped: false, activeClick: true },
-
-            { id: 2, pairId: 1, type: 'question', content: 'Welcher Fluss fließt durch Paris?', flipped: false, activeClick: true },
-            { id: 3, pairId: 1, type: 'answer', content: 'Die Seine', flipped: false, activeClick: true },
-
-            { id: 4, pairId: 2, type: 'question', content: 'Welcher Kontinent ist der größte der Welt?', flipped: false, activeClick: true },
-            { id: 5, pairId: 2, type: 'answer', content: 'Asien', flipped: false, activeClick: true },
-
-            { id: 6, pairId: 3, type: 'question', content: 'Wie viele Kontinente gibt es auf der Erde?', flipped: false, activeClick: true },
-            { id: 7, pairId: 3, type: 'answer', content: 'Sieben', flipped: false, activeClick: true },
-
-            { id: 8, pairId: 4, type: 'question', content: 'Welches Land hat die größte Bevölkerung der Welt?', flipped: false, activeClick: true },
-            { id: 9, pairId: 4, type: 'answer', content: 'China', flipped: false, activeClick: true },
-
-            { id: 10, pairId: 5, type: 'question', content: 'Welcher Ozean ist der größte der Welt?', flipped: false, activeClick: true },
-            { id: 11, pairId: 5, type: 'answer', content: 'Der Pazifik', flipped: false, activeClick: true },
-
-            { id: 12, pairId: 6, type: 'question', content: 'Welcher Berg ist der höchste der Welt?', flipped: false, activeClick: true },
-            { id: 13, pairId: 6, type: 'answer', content: 'Der Mount Everest', flipped: false, activeClick: true },
-
-            { id: 14, pairId: 7, type: 'question', content: 'Welches Land hat die meisten Nachbarländer?', flipped: false, activeClick: true },
-            { id: 15, pairId: 7, type: 'answer', content: 'China (14 Nachbarländer)', flipped: false, activeClick: true }
-          ]
-        }
-      ],
-      flippedCards: []
+      allUserSets: [],
+      flippedCards: [],
+      errors: {
+        apiError: null
+      }
     };
   },
   methods: {
-
     //--- set logic --//
-    playSet(set) {
-      this.selectedSet = set;
+    async playSet(set) {
+      try {
+        const response = await api.get(`/sets/${set._id}`);
+        const fetchedSet = response.data;
+        this.selectedSet = {
+          id: set.id,
+          title: fetchedSet.title,
+          cardPair: fetchedSet.cardPair.flatMap((pair, pairIndex) => [
+            {
+              id: pairIndex * 2,
+              pairId: pair.pairId,
+              type: 'question',
+              content: pair.question,
+              flipped: false,
+              activeClick: true
+            },
+            {
+              id: pairIndex * 2 + 1,
+              pairId: pair.pairId,
+              type: 'answer',
+              content: pair.answer,
+              flipped: false,
+              activeClick: true
+            }
+          ])
+        };
+      } catch (error) {
+        this.errors.apiError = "Fehler beim Laden des ausgewählten Sets. Bitte versuchen Sie es erneut.";
+        console.error('Error fetching set details:', error);
+      }
     },
 
     //--- memory game logic --//
@@ -176,26 +180,33 @@ h3 {
   justify-content: center;
 }
 
-.card-area > * {
-  grid-column: span 1; /* Jede Karte nimmt genau eine Spalte ein */
-  grid-row: span 1;    /* Jede Karte nimmt genau eine Zeile ein */
-  visibility: visible; /* Standardmäßig sichtbar */
+.card-area>* {
+  grid-column: span 1;
+  /* Jede Karte nimmt genau eine Spalte ein */
+  grid-row: span 1;
+  /* Jede Karte nimmt genau eine Zeile ein */
+  visibility: visible;
+  /* Standardmäßig sichtbar */
 }
 
-.card-area > .hidden {
-  visibility: hidden; /* Karten, die entfernt werden, bleiben unsichtbar */
+.card-area>.hidden {
+  visibility: hidden;
+  /* Karten, die entfernt werden, bleiben unsichtbar */
 }
 
 .match-buttons {
-  margin-bottom: 20px; /* Abstand nach unten */
-  height: 50px; /* Feste Höhe, um Platz zu reservieren */
+  margin-bottom: 20px;
+  /* Abstand nach unten */
+  height: 50px;
+  /* Feste Höhe, um Platz zu reservieren */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .match-buttons.hidden {
-  visibility: hidden; /* Unsichtbar, aber Platz bleibt reserviert */
+  visibility: hidden;
+  /* Unsichtbar, aber Platz bleibt reserviert */
 }
 
 @media (min-width: 768px) {
