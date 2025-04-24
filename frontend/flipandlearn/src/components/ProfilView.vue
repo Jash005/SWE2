@@ -8,14 +8,8 @@
       <section class="card-area" v-if="allUserSets || allUserSets != 0">
         <router-link to="/card-create" class="create-button">+ Set erstellen</router-link>
         <div>
-          <SingleSet
-            v-for="set in allUserSets"
-            :key="set.id"
-            :set="set"
-            @delete="deleteSet"
-            @play="playSet"
-            @edit="editSet"
-          />
+          <SingleSet v-for="set in allUserSets" :key="set.id" :set="set" @delete="deleteSet" @play="playSet"
+            @edit="editSet" />
         </div>
       </section>
 
@@ -27,12 +21,7 @@
       <section class="recent-games">
         <h4>Letzte Spiele</h4>
         <div class="recent-games-list">
-          <div
-            v-for="game in recentGames"
-            :key="game.id"
-            class="recent-game-item"
-            @click="playSet(game)"
-          >
+          <div v-for="game in recentGames" :key="game.id" class="recent-game-item" @click="playSet(game)">
             <span class="game-name">{{ game.name }}</span>
             <span class="game-score">{{ game.score }} Punkte</span>
           </div>
@@ -113,7 +102,7 @@ h4 {
   padding: 20px;
 }
 
-.card-area > div {
+.card-area>div {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;

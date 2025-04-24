@@ -37,13 +37,59 @@ export default {
     MatchButtons
   },
   async mounted() {
-    // Fetch all sets from the API
-    try {
-      const response = await api.get('/sets');
-      this.allUserSets = response.data;
-    } catch (error) {
-      this.errors.apiError = "Fehler beim Laden der Sets. Bitte versuchen Sie es erneut.";
-      console.error('Error fetching sets:', error);
+    const setId = this.$route.query.setId;
+    const setTitle = this.$route.query.setTitle;
+
+    if (setId) {
+      try {
+        const response = await api.get(`/sets/${setId}`);
+        const fetchedSet = response.data;
+
+        const shuffle = (array) => {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        };
+
+        this.selectedSet = {
+          id: setId,
+          title: setTitle || fetchedSet.title,
+          cardPair: shuffle(
+            fetchedSet.cardPair.flatMap((pair, pairIndex) => [
+              {
+                id: pairIndex * 2,
+                pairId: pair.pairId,
+                type: 'question',
+                content: pair.question,
+                flipped: false,
+                activeClick: true
+              },
+              {
+                id: pairIndex * 2 + 1,
+                pairId: pair.pairId,
+                type: 'answer',
+                content: pair.answer,
+                flipped: false,
+                activeClick: true
+              }
+            ])
+          )
+        };
+      } catch (error) {
+        this.errors.apiError = "Fehler beim Laden des ausgewählten Sets. Bitte versuchen Sie es erneut.";
+        console.error('Error fetching set details:', error);
+      }
+    } else {
+      // Fetch all sets from the API
+      try {
+        const response = await api.get('/sets');
+        this.allUserSets = response.data;
+      } catch (error) {
+        this.errors.apiError = "Fehler beim Laden der Sets. Bitte versuchen Sie es erneut.";
+        console.error('Error fetching sets:', error);
+      }
     }
   },
 
