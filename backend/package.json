@@ -16,10 +16,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "nedb-promises": "^6.2.3",
+    "vue-flip": "^3.0.2"
   },
   "type": "module",
   "devDependencies": {
-    "@types/node": "^20.15.1"
+    "@types/node": "^20.15.1",
+    "nodemon": "^3.1.9"
   }
 }
