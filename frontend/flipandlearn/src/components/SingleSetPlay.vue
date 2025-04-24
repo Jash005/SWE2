@@ -1,6 +1,6 @@
 <template>
   <div class="single-set-play" @click.stop="playSet">
-    <h3>{{ set?.name || 'Set ohne Name' }}</h3>
+    <h3>{{ set?.title || 'Set ohne Name' }}</h3>
   </div>
 </template>
 

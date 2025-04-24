@@ -49,18 +49,31 @@ export default {
       allUserSets: [
         {
           id: 0,
-          title: 'Titel für das Set',
+          title: 'Geographie',
           cardPair: [
-            { id: 0, pairId: 0, type: 'question', content: 'Frage 0', flipped: false, activeClick: true },
-            { id: 1, pairId: 0, type: 'answer', content: 'Antwort 0', flipped: false, activeClick: true },
-            { id: 2, pairId: 1, type: 'question', content: 'Frage 1', flipped: false, activeClick: true },
-            { id: 3, pairId: 1, type: 'answer', content: 'Antwort 1', flipped: false, activeClick: true },
-            { id: 4, pairId: 2, type: 'question', content: 'Frage 2', flipped: false, activeClick: true },
-            { id: 5, pairId: 2, type: 'answer', content: 'Antwort 2', flipped: false, activeClick: true },
-            { id: 6, pairId: 3, type: 'question', content: 'Frage 3', flipped: false, activeClick: true },
-            { id: 7, pairId: 3, type: 'answer', content: 'Antwort 3', flipped: false, activeClick: true },
-            { id: 8, pairId: 4, type: 'question', content: 'Frage 4', flipped: false, activeClick: true },
-            { id: 9, pairId: 4, type: 'answer', content: 'Antwort 4', flipped: false, activeClick: true }
+            { id: 0, pairId: 0, type: 'question', content: 'Was ist die Hauptstadt von Deutschland?', flipped: false, activeClick: true },
+            { id: 1, pairId: 0, type: 'answer', content: 'Berlin', flipped: false, activeClick: true },
+
+            { id: 2, pairId: 1, type: 'question', content: 'Welcher Fluss fließt durch Paris?', flipped: false, activeClick: true },
+            { id: 3, pairId: 1, type: 'answer', content: 'Die Seine', flipped: false, activeClick: true },
+
+            { id: 4, pairId: 2, type: 'question', content: 'Welcher Kontinent ist der größte der Welt?', flipped: false, activeClick: true },
+            { id: 5, pairId: 2, type: 'answer', content: 'Asien', flipped: false, activeClick: true },
+
+            { id: 6, pairId: 3, type: 'question', content: 'Wie viele Kontinente gibt es auf der Erde?', flipped: false, activeClick: true },
+            { id: 7, pairId: 3, type: 'answer', content: 'Sieben', flipped: false, activeClick: true },
+
+            { id: 8, pairId: 4, type: 'question', content: 'Welches Land hat die größte Bevölkerung der Welt?', flipped: false, activeClick: true },
+            { id: 9, pairId: 4, type: 'answer', content: 'China', flipped: false, activeClick: true },
+
+            { id: 10, pairId: 5, type: 'question', content: 'Welcher Ozean ist der größte der Welt?', flipped: false, activeClick: true },
+            { id: 11, pairId: 5, type: 'answer', content: 'Der Pazifik', flipped: false, activeClick: true },
+
+            { id: 12, pairId: 6, type: 'question', content: 'Welcher Berg ist der höchste der Welt?', flipped: false, activeClick: true },
+            { id: 13, pairId: 6, type: 'answer', content: 'Der Mount Everest', flipped: false, activeClick: true },
+
+            { id: 14, pairId: 7, type: 'question', content: 'Welches Land hat die meisten Nachbarländer?', flipped: false, activeClick: true },
+            { id: 15, pairId: 7, type: 'answer', content: 'China (14 Nachbarländer)', flipped: false, activeClick: true }
           ]
         }
       ],
