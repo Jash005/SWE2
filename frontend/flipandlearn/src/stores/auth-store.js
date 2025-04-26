@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
 /**
  * Usage Example:
@@ -18,26 +18,26 @@ import { defineStore } from 'pinia'
  * console.log(authStore.isLoggedIn)     // true or false
  */
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("auth", {
   state: () => ({
-    user: JSON.parse(localStorage.getItem('user')) || null
+    user: JSON.parse(localStorage.getItem("user")) || null,
   }),
   actions: {
     // Store user data in local storage
     // and set it in the state
     setUser(userData) {
-      this.user = userData
-      localStorage.setItem('user', JSON.stringify(userData))
+      this.user = userData;
+      localStorage.setItem("user", JSON.stringify(userData));
     },
     // Clear user data from local storage
     // and set it to null in the state
     logout() {
-      this.user = null
-      localStorage.removeItem('user')
+      this.user = null;
+      localStorage.removeItem("user");
     },
     // Check if the user is currently logged in
     loggedIn() {
-        return this.user !== null
-      }
-  }
-})
+      return this.user !== null;
+    },
+  },
+});
