@@ -81,7 +81,8 @@ router.get('/:username', async (req, res) => {
 
 // Login
 router.post('/login', basicAuth, async (req, res) => {
-    res.status(200).json({isSuccess: true});
+    const user = await getUser(req.user.username);
+    res.json({username: user.username, displayName: user.displayName});
 })
 
 // Edit user
