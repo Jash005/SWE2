@@ -20,6 +20,9 @@
 </template>
 
 <script>
+    import { useAuthStore } from '@/stores/auth-store';
+    import api from '@/plugins/axios';
+
     export default {
     name: 'GameResult',
     data() {
@@ -28,6 +31,37 @@
             scores: this.$route.query.score || null,
             moves: this.$route.query.moves || null,
         };
+    },
+    async onMounted() {
+        // Check if the user is logged in and if the set Id and scores are available
+        // If so, send the scores to the backend
+        const authStore = useAuthStore();
+        if (authStore.isLoggedIn && this.scores && this.setId) {
+            const token = btoa(`${authStore.user.username}:${authStore.user.password}`);
+        
+            try {
+                const response = await api.post("/scores", 
+                {
+                    setId: this.setId,
+                    userId: authStore.user.userId,
+                    score: this.scores,
+                    playedOn: new Date().toISOString(),
+                },
+                {
+                    headers: {
+                        Authorization: `Basic ${token}`,
+                    },
+                });
+                console.log("Score response:", response);
+                if(!response.status == 201) {
+                    // TODO: Show error message to user?
+                    console.log("Error while sending scores:", response);
+                }
+            }
+            catch (error) {
+                console.error("Error while sending scores: ", error);
+            }
+        }
     },
     };
 </script>
