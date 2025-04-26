@@ -22,6 +22,12 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: JSON.parse(localStorage.getItem("user")) || null,
   }),
+  getters: {
+    // Check if user is logged in
+    isLoggedIn(state) {
+      return state.user !== null;
+    }
+  },
   actions: {
     // Store user data in local storage
     // and set it in the state
@@ -34,10 +40,6 @@ export const useAuthStore = defineStore("auth", {
     logout() {
       this.user = null;
       localStorage.removeItem("user");
-    },
-    // Check if the user is currently logged in
-    loggedIn() {
-      return this.user !== null;
     },
   },
 });
