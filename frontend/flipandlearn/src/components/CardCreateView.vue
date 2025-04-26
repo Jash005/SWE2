@@ -41,6 +41,7 @@
 import CardInputField from "./CardInputField.vue";
 import CardPairView from "./CardPairView.vue";
 import api from "../plugins/axios.js";
+import { useAuthStore } from "../stores/auth-store.js";
 
 export default {
   name: "CardCreateView",
@@ -98,11 +99,10 @@ export default {
       this.set.cardPair.unshift({ pairId: this.index++, ...newCard });
     },
     async onCreateOrEditSet(newSet) {
-      console.log(newSet);    // TODO: Remove this line
-      // TODO: Add login data from storage
-      const username = "aaaa";
-      const password = "aaaa123!";
-      const token = btoa(`${username}:${password}`);
+      
+      // Add login data from store
+      const authStore = useAuthStore();
+      const token = btoa(`${authStore.user.username}:${authStore.user.password}`);
 
       let response;
       try {
@@ -130,7 +130,7 @@ export default {
           console.log("Set successfully saved:", response.data);
           
           this.editingSet = false;
-          // TODO: check if needed
+          
           // Reset set model
           this.set = {
             _id: null,
