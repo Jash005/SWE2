@@ -110,6 +110,8 @@ export default {
       this.username = "";
       this.displayName = "";
       this.password = "";
+      this.errorMessage = "";
+      this.successMessage = ""; 
     },
     validateUsername(value) {
       const usernameRegex = /^[a-zA-Z0-9]{4,10}$/;
