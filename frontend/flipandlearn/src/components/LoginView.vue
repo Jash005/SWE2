@@ -74,7 +74,7 @@ export default {
 
             // Store the user data in store
             const authStore = useAuthStore()
-            authStore.setUser(response.data);
+            authStore.setUser({password: this.password, ...response.data});
             
             // Reset login model
             this.username = "";
