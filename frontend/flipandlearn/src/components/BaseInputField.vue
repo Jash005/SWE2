@@ -2,8 +2,8 @@
   <div class="input-group">
     <label v-if="label" :for="id">{{ label }}</label>
     <input :id="id" :type="type" :placeholder="placeholder" v-model="inputValue"
-      :class="{ 'input-error': errorMessage }" @input="updateValue" />
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      :class="{ 'input-error': errorMessage }" @input="updateValue" lazy/>
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
 
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       errorMessage: "",
+      debounceTimeout: null,
     };
   },
   computed: {
@@ -40,11 +41,17 @@ export default {
     updateValue(event) {
       const value = event.target.value;
       this.$emit("update:modelValue", value);
-
-      if (this.validation) {
-        this.errorMessage = this.validation(value);
-      }
-    },
+      
+      clearTimeout(this.debounceTimeout)
+        this.debounceTimeout = setTimeout(() => {
+          // Call the validation function if provided
+          if (this.validation) {
+            this.errorMessage = this.validation(value) || '';
+          } else {
+            this.errorMessage = '';
+          }
+        }, 1000) // wait 1000ms before validating
+      },
   },
 }
 </script>
@@ -95,8 +102,17 @@ input:-webkit-autofill:focus {
   border-color: red;
 }
 
-.error {
+/* .error {
   color: red;
   font-size: 12px;
+} */
+.error-message {
+  color: red;
+  background: #ffe0e0;
+  padding: 10px;
+  min-height: 1.2em;
+  text-align: left;
+  max-width: 500px;
+  margin: auto;
 }
 </style>

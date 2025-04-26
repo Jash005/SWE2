@@ -3,15 +3,20 @@
     <h1>{{ isLogin ? "Login" : "Registrieren" }}</h1>
 
     <form @submit.prevent="handleSubmit">
-      <BaseInputField v-model="username" label="Benutzername" placeholder="Dein Benutzername" />
+      <BaseInputField v-model="username" label="Benutzername" placeholder="Dein Benutzername" 
+        :validation="usernameValidation" />
 
-      <BaseInputField v-if="!isLogin" v-model="email" label="E-Mail" type="email" placeholder="Deine E-Mail"
-                      :validation="validateEmail" />
+      <BaseInputField v-model="password" label="Passwort" type="password" placeholder="Dein Passwort" 
+        :validation="passwordValidation" />
 
-      <BaseInputField v-model="password" label="Passwort" type="password" placeholder="Dein Passwort" />
+      <BaseInputField v-if="!isLogin" v-model="displayName" label="Anzeigename" placeholder="Dein Anzeigename"
+        :validation="validateDisplayName" />
 
       <button type="submit">{{ isLogin ? "Einloggen" : "Registrieren" }}</button>
     </form>
+
+    <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
+    <div class="success-message" v-if="successMessage">{{ successMessage }}</div>
 
     <p @click="toggleMode">
       {{ isLogin ? "Noch keinen Account? Registriere dich!" : "Schon registriert? Jetzt einloggen!" }}
@@ -21,6 +26,8 @@
 
 <script>
 import BaseInputField from './BaseInputField.vue';
+import api from "../plugins/axios.js";
+import { useAuthStore } from '../stores/auth-store.js';
 
 export default {
   name: 'LoginView',
@@ -31,29 +38,95 @@ export default {
     return {
       isLogin: true,
       username: '',
-      email: '',
+      displayName: '',
       password: '',
+      errorMessage: '',
+      successMessage: ''
     };
   },
+  computed: {
+    // Computed properties for validation
+    // depending on the mode (login or registration)
+    usernameValidation() {
+      return this.isLogin ? undefined : this.validateUsername;
+    },
+    passwordValidation() {
+      return this.isLogin ? undefined : this.validatePassword;
+    },
+  },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       if (this.isLogin) {
-        console.log("Login mit:", this.username, this.password);
-        // TODO implement login logic, verification and API call
+        
+        const token = btoa(`${this.username}:${this.password}`);
+        
+        try {
+          const response = await api.post("/users/login", {}, {
+            headers: {
+              Authorization: `Basic ${token}`,
+            },
+          });
+          console.log("Login response:", response);
+          if(response.status == 200) {
+            // TODO: Maybe show success message to user with a notification
+            this.successMessage =
+            "Erfolgreich eingeloggt! Viel Spaß beim Spiel!";
+
+            // Store the user data in store
+            const authStore = useAuthStore()
+            authStore.setUser(response.data);
+            
+            // Reset login model
+            this.username = "";
+            this.password = "";
+
+            this.$router.push('/profil');
+          }
+          else if(response.status == 401) {
+            this.errorMessage = "Benutzername oder Passwort ist ungültig. Bitte überprüfe deine Eingaben.";
+          }
+          else if(response.status == 404) {
+            this.errorMessage = "Benutzername nicht gefunden. Bitte registriere dich, um fortzufahren.";
+          }
+          else {
+            this.errorMessage =
+              "Es gab ein Problem beim Login. Versuche es bitte später erneut.";
+          }
+        }
+        catch (error) {
+          console.error("Error while logging in:", error);
+          // Show error message to user
+          this.errorMessage =
+            "Es gab ein Problem beim Login. Versuche es bitte später erneut.";
+        }
       } else {
-        console.log("Registrierung mit:", this.username, this.email, this.password);
-        // TODO implement registration logic, verification and API call
+        console.log("Registrierung mit:", this.username, this.displayName, this.password);
+        // TODO: implement registration logic, verification and API call
+        // TODO: @Miriam du bist hier dran. Viel Erfolg! :)
       }
     },
     toggleMode() {
       this.isLogin = !this.isLogin;
       this.username = "";
-      this.email = "";
+      this.displayName = "";
       this.password = "";
     },
-    validateEmail(value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(value) ? "" : "Bitte eine gültige E-Mail-Adresse eingeben";
+    validateUsername(value) {
+      const usernameRegex = /^[a-zA-Z0-9]{4,10}$/;
+      return usernameRegex.test(value)
+        ? ""
+        : "Benutzername muss 4–10 Zeichen lang sein und darf nur Buchstaben und Zahlen enthalten.";
+    },
+    validatePassword(value) {
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+      return passwordRegex.test(value)
+        ? ""
+        : "Passwort muss 8–16 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und eines der Zeichen !@#$%^&* enthalten.";
+    },
+    validateDisplayName(value) {
+      return value.length >= 4 && value.length <= 30
+      ? ""
+      : "Anzeigename muss zwischen 4 und 30 Zeichen lang sein.";
     }
   }
 };
@@ -135,5 +208,24 @@ p {
 
 p:hover {
   color: var(--general-font-hover);
+}
+
+.error-message {
+  color: red;
+  background: #ffe0e0;
+  padding: 10px;
+  min-height: 1.2em;
+  text-align: left;
+  max-width: 500px;
+  margin: 10px auto;
+}
+.success-message {
+  color: green;
+  background: rgb(179, 255, 179);
+  padding: 10px;
+  min-height: 1.2em;
+  text-align: left;
+  max-width: 500px;
+  margin: auto;
 }
 </style>
