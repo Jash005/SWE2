@@ -239,23 +239,17 @@ h3 {
 
 .card-area>* {
   grid-column: span 1;
-  /* Jede Karte nimmt genau eine Spalte ein */
   grid-row: span 1;
-  /* Jede Karte nimmt genau eine Zeile ein */
   visibility: visible;
-  /* Standardmäßig sichtbar */
 }
 
 .card-area>.hidden {
   visibility: hidden;
-  /* Karten, die entfernt werden, bleiben unsichtbar */
 }
 
 .match-buttons {
   margin-bottom: 20px;
-  /* Abstand nach unten */
   height: 50px;
-  /* Feste Höhe, um Platz zu reservieren */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -263,12 +257,10 @@ h3 {
 
 .match-buttons.hidden {
   visibility: hidden;
-  /* Unsichtbar, aber Platz bleibt reserviert */
 }
 
 @media (min-width: 1000px) {
   .card-area {
-    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
     gap: 15px;

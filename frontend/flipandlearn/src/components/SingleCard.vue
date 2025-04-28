@@ -125,7 +125,7 @@ export default {
 
 @media screen and (min-width: 768px) {
     .back {
-        font-size: smaller;
+        font-size: 1.3em;
     }
 }
 </style>
