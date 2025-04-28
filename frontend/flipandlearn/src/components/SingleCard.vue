@@ -71,7 +71,7 @@ export default {
     text-align: center;
     border-radius: 12px;
     color: var(--general-font);
-    font-size: 12px;
+    font-size: 1em;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -82,13 +82,14 @@ export default {
 }
 
 .material-symbols-outlined {
-    font-size: 80px;
+    font-size: 4em;
     color: var(--black-font);
 }
 
 @media screen and (min-width: 768px) {
     .single-card {
-        font-size: 14px;
+        min-width: calc(100% / 6);
+        /* max-width: calc(100% / 0.2); */
     }
 }
 </style>
@@ -115,9 +116,16 @@ export default {
     background-color: var(--general-font-hover);
     color: var(--black-font);
     font-weight: 500;
+    word-wrap: break-word;
 }
 
 .text-back {
-    padding: 10px;
+    padding: 5px;
+}
+
+@media screen and (min-width: 768px) {
+    .back {
+        font-size: smaller;
+    }
 }
 </style>

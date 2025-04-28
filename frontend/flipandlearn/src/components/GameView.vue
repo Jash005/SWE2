@@ -1,15 +1,15 @@
 <template>
   <div class="game-view">
-    <h2>Spielen</h2>
-
+    
     <article v-if="!selectedSet">
+      <h2>Spielen</h2>
       <section class="set-area" v-if="allUserSets.length > 0">
         <SingleSetPlay v-for="set in allUserSets" :key="set.id" :set="set" @play="playSet" />
       </section>
     </article>
 
     <article v-else>
-      <h3>{{ selectedSet.title }}</h3>
+      <h2>{{ selectedSet.title }}</h2>
 
       <section class="match-buttons" :class="{ hidden: flippedCards.length !== 2 }">
         <MatchButtons @decision="handleUserDecision" />
@@ -266,10 +266,13 @@ h3 {
   /* Unsichtbar, aber Platz bleibt reserviert */
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1000px) {
   .card-area {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 30px;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 15px;
+    padding: 0 10%;
   }
 }
 </style>
