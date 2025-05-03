@@ -1,15 +1,18 @@
 <template>
   <div class="game-view">
-    
+    <h2>Spielen</h2>
+
     <article v-if="!selectedSet">
-      <h2>Spielen</h2>
       <section class="set-area" v-if="allUserSets.length > 0">
         <SingleSetPlay v-for="set in allUserSets" :key="set.id" :set="set" @play="playSet" />
       </section>
     </article>
 
     <article v-else>
-      <h2>{{ selectedSet.title }}</h2>
+      <h3>{{ selectedSet.title }}</h3>
+
+      <h4>Punkte: {{ gameScore }}</h4>
+      <h4>Anzahl Züge: {{ moves }}</h4>
 
       <section class="match-buttons" :class="{ hidden: flippedCards.length !== 2 }">
         <MatchButtons @decision="handleUserDecision" />
@@ -82,7 +85,6 @@ export default {
         console.error('Error fetching set details:', error);
       }
     } else {
-      // Fetch all sets from the API
       try {
         const response = await api.get('/sets');
         this.allUserSets = response.data;
@@ -100,7 +102,9 @@ export default {
       flippedCards: [],
       errors: {
         apiError: null
-      }
+      },
+      gameScore: 0,
+      moves: 0
     };
   },
   methods: {
@@ -163,14 +167,22 @@ export default {
     },
     handleUserDecision(isMatch) {
       if (this.flippedCards.length === 2) {
+        this.moves += 1;
         const [card1, card2] = this.flippedCards;
         const isCorrectMatch = card1.pairId === card2.pairId && card1.type !== card2.type;
 
         if (isMatch === isCorrectMatch) {
           if (isCorrectMatch) {
             console.log('Richtiges Paar gefunden:', card1, card2);
+            this.gameScore += 1;
+            console.log('Aktueller Punktestand:', this.gameScore);
             card1.hidden = true;
             card2.hidden = true;
+          }
+        } else {
+          if(this.gameScore > 0) {
+            this.gameScore -= 1;
+            console.log('Aktueller Punktestand:', this.gameScore);
           }
         }
 
@@ -199,7 +211,10 @@ export default {
       this.selectedSet = null;
       this.flippedCards = [];
 
-      this.$router.push({ name: 'GameResult' });
+      this.$router.push({ 
+        name: 'GameResult', 
+        query: { score: this.gameScore, moves: this.moves, setId: this.setId } 
+      });
     }
   }
 };
@@ -239,17 +254,23 @@ h3 {
 
 .card-area>* {
   grid-column: span 1;
+  /* Jede Karte nimmt genau eine Spalte ein */
   grid-row: span 1;
+  /* Jede Karte nimmt genau eine Zeile ein */
   visibility: visible;
+  /* Standardmäßig sichtbar */
 }
 
 .card-area>.hidden {
   visibility: hidden;
+  /* Karten, die entfernt werden, bleiben unsichtbar */
 }
 
 .match-buttons {
   margin-bottom: 20px;
+  /* Abstand nach unten */
   height: 50px;
+  /* Feste Höhe, um Platz zu reservieren */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -257,14 +278,13 @@ h3 {
 
 .match-buttons.hidden {
   visibility: hidden;
+  /* Unsichtbar, aber Platz bleibt reserviert */
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
   .card-area {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 15px;
-    padding: 0 10%;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
   }
 }
 </style>
