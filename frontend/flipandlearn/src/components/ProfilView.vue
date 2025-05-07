@@ -22,7 +22,7 @@
         <h4>Letzte Spiele</h4>
         <div class="recent-games-list">
           <div v-for="game in recentGames" :key="game.id" class="recent-game-item" @click="playSet(game)">
-            <span class="game-name">{{ game.name }}</span>
+            <span class="game-name">{{ getSetTitle(game.setId) }}</span>
             <span class="game-score">{{ game.score }} Punkte</span>
           </div>
         </div>
@@ -83,8 +83,9 @@ export default {
       // Filtern: Nur Einträge, die zum aktuellen Benutzer passen
       const userScores = scores.filter((score) => score.username === this.username);
       console.log(userScores);
-      // Sortieren: Absteigend nach `quizId`
-      userScores.sort((a, b) => b.quizId - a.quizId);
+      // Sortieren: Absteigend nach `setId`
+      // Macht keinn Sinn mehr, da random
+      userScores.sort((a, b) => b.setId - a.setId);
 
       // Nur die höchsten x Einträge (default sind 3)
       const topX = 3; // Anzahl der gewünschten Einträge
@@ -107,8 +108,29 @@ export default {
     editSet(set) {
       this.$router.push({ path: '/card-create', query: { setId: set.id } });
     },
-  },
-};
+    async getSetTitle(setId) {
+      try {
+        const token = btoa(`${this.username}:${JSON.parse(localStorage.getItem("user")).password}`);
+
+        const response = await fetch(`http://localhost:3000/api/sets/${setId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${token}`,
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Fehler beim Abrufen des Sets');
+        }
+        const data = await response.json();
+        console.log(data);
+        console.log(data.title);
+        return data.title;
+      } catch (error) {
+          console.error(error);
+      }
+    },
+  },};
 </script>
 
 <style scoped>
