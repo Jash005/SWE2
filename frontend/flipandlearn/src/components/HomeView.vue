@@ -10,8 +10,8 @@
 
     <nav>
       <ul>
-        <li><router-link to="/game">Spielen</router-link></li>
-        <li><router-link to="/profil">Profil</router-link></li>
+        <li v-if="isLoggedIn"><router-link to="/game">Spielen</router-link></li>
+        <li v-if="isLoggedIn"><router-link to="/profil">Profil</router-link></li>
         <li><router-link to="/login">Login</router-link></li>
       </ul>
     </nav>
