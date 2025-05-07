@@ -8,14 +8,33 @@
     <ul>
       <li><router-link to="/game">Spielen</router-link></li>
       <li><router-link to="/profil">Profil</router-link></li>
-      <li><router-link to="/login">Login</router-link></li>
+      <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
+      <li v-else>
+        <button class="logout-button" @click="logout">Logout</button>
+      </li>
     </ul>
   </nav>
 </template>
 
 <script>
+import { useAuthStore } from "@/stores/auth-store";
+
 export default {
   name: "NavigationBar",
+  setup() {
+    const authStore = useAuthStore();
+
+    // Logout-Funktion
+    const logout = () => {
+      authStore.logout();
+      window.location.reload(); // Optional: Seite neu laden oder zur Login-Seite navigieren
+    };
+
+    return {
+      logout,
+      isLoggedIn: authStore.isLoggedIn,
+    };
+  },
 };
 </script>
 
@@ -30,7 +49,6 @@ export default {
   padding: 5px;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
 }
-
 
 .logo-container {
   display: flex;
@@ -76,6 +94,21 @@ a:hover {
   color: var(--navbar-font-hover);
 }
 
+.logout-button {
+  background-color: var(--button-danger);
+  color: var(--navbar-font);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: var(--button-danger-hover);
+}
+
 @media (min-width: 768px) {
   #navigation-bar {
     min-height: 100vh;
@@ -88,6 +121,4 @@ a:hover {
     transform: rotate(180deg);
   }
 }
-  
-
 </style>
