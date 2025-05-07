@@ -41,24 +41,59 @@ export default {
   },
   data() {
     return {
-      username: 'Test User',
-      allUserSets: [
-        { id: 1, name: 'Set 1', cards: [{ id: 1, question: 'Frage 1', answer: 'Antwort 1' }] },
-        {
-          id: 2,
-          name: 'Set 2',
-          cards: [
-            { id: 2, question: 'Frage 2', answer: 'Antwort 2' },
-            { id: 3, question: 'Frage 3', answer: 'Antwort 3' },
-          ],
-        },
-      ],
-      recentGames: [
-        { id: 1, name: 'Set 1', score: 85 },
-        { id: 2, name: 'Set 2', score: 90 },
-        { id: 3, name: 'Set 3', score: 75 },
-      ],
+      username: JSON.parse(localStorage.getItem("user")).username,
+      allUserSets: [],
+      recentGames: [],
     };
+  },
+  async mounted () {
+    try {
+      const token = btoa(`${this.username}:${JSON.parse(localStorage.getItem("user")).password}`);
+
+      const response = await fetch(`http://localhost:3000/api/users/${this.username}/sets`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Fehler beim Abrufen der Sets');
+      }
+      const data = await response.json();
+      this.allUserSets = data;
+
+      // Fetch recent games
+
+      // API-Call: Scores abrufen
+      const responseScores = await fetch(`http://localhost:3000/api/scores`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${token}`,
+        },
+      });
+
+      if (!responseScores.ok) {
+        throw new Error("Fehler beim Abrufen der Scores");
+      }
+
+      const scores = await responseScores.json();
+      console.log(scores);
+      // Filtern: Nur Einträge, die zum aktuellen Benutzer passen
+      const userScores = scores.filter((score) => score.username === this.username);
+      console.log(userScores);
+      // Sortieren: Absteigend nach `quizId`
+      userScores.sort((a, b) => b.quizId - a.quizId);
+
+      // Nur die höchsten x Einträge (default sind 3)
+      const topX = 3; // Anzahl der gewünschten Einträge
+      this.recentGames = userScores.slice(0, topX);
+
+      console.log("Gefilterte und sortierte Scores:", JSON.stringify(this.recentGames));
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     deleteSet(set) {

@@ -1,7 +1,7 @@
 <template>
   <!-- TODO SingleSet -->
   <div class="single-set">
-    <h3>{{ set?.name || 'Set ohne Name' }}</h3>
+    <h3>{{ set?.title || 'Set ohne Name' }}</h3>
     <!-- TODO replace with Icons -->
     <p @click.stop="playSet">spielen</p>
     <p @click.stop="editSet">bearbeiten</p>
