@@ -7,7 +7,14 @@
 
     <ul>
       <li><router-link to="/game">Spielen</router-link></li>
-      <li><router-link to="/profil">Profil</router-link></li>
+      <li>
+        <router-link
+          :to="isLoggedIn ? '/profil' : '/login'"
+          @click.prevent="redirectToProfile"
+        >
+          Profil
+        </router-link>
+      </li>
       <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
       <li v-else>
         <button class="logout-button" @click="logout">Logout</button>
@@ -18,11 +25,13 @@
 
 <script>
 import { useAuthStore } from "@/stores/auth-store";
+import { useRouter } from "vue-router";
 
 export default {
   name: "NavigationBar",
   setup() {
     const authStore = useAuthStore();
+    const router = useRouter();
 
     // Logout-Funktion
     const logout = () => {
@@ -30,9 +39,19 @@ export default {
       window.location.reload(); // Optional: Seite neu laden oder zur Login-Seite navigieren
     };
 
+    // Redirect-Funktion für Profil
+    const redirectToProfile = () => {
+      if (authStore.isLoggedIn) {
+        router.push("/profil");
+      } else {
+        router.push("/login");
+      }
+    };
+
     return {
       logout,
       isLoggedIn: authStore.isLoggedIn,
+      redirectToProfile,
     };
   },
 };
