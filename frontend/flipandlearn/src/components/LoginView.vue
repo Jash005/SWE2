@@ -72,7 +72,9 @@ export default {
             this.username = "";
             this.password = "";
 
-            this.$router.push("/profil");
+            setTimeout(() => {
+              this.$router.push("/profil");
+            }, 1000);            
           }
         } catch (error) {
           console.error("Error while logging in:", error);
@@ -244,5 +246,6 @@ p:hover {
   text-align: left;
   max-width: 500px;
   margin: auto;
+  margin-top: 10px;
 }
 </style>
