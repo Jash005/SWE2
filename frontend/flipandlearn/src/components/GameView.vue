@@ -91,6 +91,7 @@ export default {
         const currentUsername = authStore.user.username;
         const response = await api.get(`/users/${currentUsername}/sets`);
         this.allUserSets = response.data;
+        console.log('Fetched sets:', this.allUserSets);
       } catch (error) {
         this.errors.apiError = "Fehler beim Laden der Sets. Bitte versuchen Sie es erneut.";
         console.error('Error fetching sets:', error);
@@ -126,7 +127,7 @@ export default {
         };
 
         this.selectedSet = {
-          id: set.id,
+          id: fetchedSet._id,
           title: fetchedSet.title,
           cardPair: shuffle(
             fetchedSet.cardPair.flatMap((pair, pairIndex) => [
@@ -148,7 +149,10 @@ export default {
               }
             ])
           )
+
         };
+        console.log('selected set:', this.selectedSet);
+        console.log('set id:', this.selectedSet.id);
       } catch (error) {
         this.errors.apiError = "Fehler beim Laden des ausgewählten Sets. Bitte versuchen Sie es erneut.";
         console.error('Error fetching set details:', error);
@@ -191,7 +195,6 @@ export default {
 
         if (this.selectedSet.cardPair.every(card => card.hidden)) {
           console.log('Alle Paare gefunden!');
-          this.selectedSet = null;
           this.finishGame();
         } else {
           this.resetFlippedCards();
@@ -211,12 +214,11 @@ export default {
 
     finishGame() {
       console.log('Spiel beendet!');
-      this.selectedSet = null;
-      this.flippedCards = [];
-
+      
+      console.log('Set id HIERHIEHIH:', this.selectedSet.id);
       this.$router.push({ 
         name: 'GameResult', 
-        query: { score: this.gameScore, moves: this.moves, setId: this.setId } 
+        query: { score: this.gameScore, moves: this.moves, setId: this.selectedSet.id } 
       });
     }
   }
