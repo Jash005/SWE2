@@ -218,7 +218,7 @@ export default {
       console.log('Set id HIERHIEHIH:', this.selectedSet.id);
       this.$router.push({ 
         name: 'GameResult', 
-        query: { score: this.gameScore, moves: this.moves, setId: this.selectedSet.id } 
+        query: { score: this.gameScore, moves: this.moves, setId: this.selectedSet.id, setTitle: this.selectedSet.title } 
       });
     }
   }

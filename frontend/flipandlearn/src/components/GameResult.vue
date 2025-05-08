@@ -31,6 +31,7 @@
             scores: this.$route.query.score || null,
             moves: this.$route.query.moves || null,
             setId: this.$route.query.setId || null,
+            setTitle: this.$route.query.setTitle || null,
         };
     },
     async mounted() {
@@ -43,9 +44,13 @@
             try {
                 const response = await api.post("/scores", 
                 {
-                    setId: this.setId,
+                    set: {
+                        setId: this.setId,
+                        setTitle: this.setTitle,
+                    },
                     username: authStore.user.username,
-                    score: this.scores,
+                    scores: this.scores,
+                    moves: this.moves,
                 },
                 {
                     headers: {
