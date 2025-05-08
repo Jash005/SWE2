@@ -30,12 +30,14 @@
             gamePath: this.$route.query.setId ? "/game/setId=" + this.$route.query.setId : "/game",
             scores: this.$route.query.score || null,
             moves: this.$route.query.moves || null,
+            setId: this.$route.query.setId || null,
         };
     },
     async mounted() {
         // Check if the user is logged in and if the set Id and scores are available
         // If so, send the scores to the backend
         const authStore = useAuthStore();
+        
         if (authStore.isLoggedIn && this.scores && this.setId) {
             const token = btoa(`${authStore.user.username}:${authStore.user.password}`);
             try {
@@ -44,7 +46,6 @@
                     setId: this.setId,
                     username: authStore.user.username,
                     score: this.scores,
-                    playedOn: new Date().toISOString(),
                 },
                 {
                     headers: {

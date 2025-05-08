@@ -5,6 +5,7 @@
 import { scoreDb } from './databases.js';
 
 export function createScore(scoreData) {
+    scoreData = { ...scoreData, playedOn: new Date().toISOString() };
     return scoreDb.insert(scoreData);
 }
 
