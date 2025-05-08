@@ -122,8 +122,12 @@ export default {
           },
         });
         }
+
+        // Check if the response is successful
+        // 200 for update, 201 for create
+        const status = this.editingSet ? 200 : 201;
         
-        if(response.status == 201) {
+        if(response.status == status) {
           // TODO: Show success message to user maybe with a notification
           this.success.creationSuccess =
            "Set erfolgreich " + (this.editingSet ? "aktualisiert" : "erstellt") + ".";
