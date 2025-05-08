@@ -32,18 +32,17 @@
             moves: this.$route.query.moves || null,
         };
     },
-    async onMounted() {
+    async mounted() {
         // Check if the user is logged in and if the set Id and scores are available
         // If so, send the scores to the backend
         const authStore = useAuthStore();
         if (authStore.isLoggedIn && this.scores && this.setId) {
             const token = btoa(`${authStore.user.username}:${authStore.user.password}`);
-        
             try {
                 const response = await api.post("/scores", 
                 {
                     setId: this.setId,
-                    userId: authStore.user.userId,
+                    username: authStore.user.username,
                     score: this.scores,
                     playedOn: new Date().toISOString(),
                 },
@@ -61,6 +60,9 @@
             catch (error) {
                 console.error("Error while sending scores: ", error);
             }
+        }
+        else {
+            console.log("Missing data");
         }
     },
     };
