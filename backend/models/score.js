@@ -5,12 +5,17 @@
 import { scoreDb } from './databases.js';
 
 export function createScore(scoreData) {
-    scoreData = { ...scoreData, playedOn: new Date().toISOString() };
+    scoreData = { ...scoreData, playedAt: new Date().toISOString() };
     return scoreDb.insert(scoreData);
 }
 
 export function getScore(id) {
     return scoreDb.findOne({ _id: id });
+}
+
+// Get all scores from user
+export function getScoresFromUser(username) {
+    return scoreDb.findAsync({ username }, { sort: { playedAt: -1 } });
 }
 
 export function queryScores() {
@@ -27,6 +32,13 @@ export function updateScore(id, data) {
     //await db.update({ _id: id }, { $set: data });
     return getScore(id);
 }
+
+export function updateSetTitleInScores(setId, newTitle) {
+    return scoreDb.updateAsync({'set.setId': setId},
+        { $set: { "set.setTitle": newTitle } },
+        { multi: true });
+}
+
 
 export function deleteScore(id) {
     const deleted = scoreDb.remove({ _id: id }, {});

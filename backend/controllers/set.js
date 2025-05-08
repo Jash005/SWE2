@@ -2,6 +2,7 @@ import express from 'express';
 import { addCardPairToSet, createSet, deleteCardPairFromSet, deleteSet, getSet, querySets, updateCardPairInSet, updateSet } from '../models/set.js';
 import { validateCardFields, validateSetFields } from '../services/set.js';
 import { basicAuth } from '../util/auth.js';
+import { updateSetTitleInScores } from '../models/score.js';
 
 const router = express.Router();
 
@@ -135,6 +136,9 @@ router.patch('/:setId', basicAuth, checkSetExists, authorizeUser, validateSetObj
 
     await updateSet(setId, editedSet);
     const updatedSet = await getSet(setId);
+
+    // Update all scores that use this set
+    await updateSetTitleInScores(setId, updatedSet.title);
 
     res.json(updatedSet);
 });

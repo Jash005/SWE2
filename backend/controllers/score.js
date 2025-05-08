@@ -2,6 +2,7 @@ import express from 'express';
 import {
     createScore,
     getScore,
+    getScoresFromUser,
     queryScores,
     updateScore,
     deleteScore
@@ -10,11 +11,12 @@ import {
 const router = express.Router();
 
 function validateScore(req, res, next) {
-    const { username, score, setId } = req.body;
-    if (username && score && setId) {
+    const { username, scores, set } = req.body;
+    
+    if (username && scores && set.setId) {
         next();
     } else {
-        res.status(400).json({ message: 'Username, Set ID or Score is invalid or missing' });
+        res.status(400).json({ message: 'Username, Set ID or Score is missing' });
     }
 }
 
@@ -27,6 +29,13 @@ router.post('/', validateScore, async (req, res) => {
 // Read all
 router.get('/', async (req, res) => {
     const scores = await queryScores();
+    res.json(scores);
+});
+
+// Read all scores from user
+router.get('/:username', async (req, res) => {
+    const scores = await getScoresFromUser(req.params.username);
+    if (!scores) return res.status(404).json({ message: 'No scores found for this user' });
     res.json(scores);
 });
 
