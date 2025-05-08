@@ -99,14 +99,14 @@ export default {
   methods: {
     deleteSet(set) {
       confirm('Möchten Sie das Set wirklich löschen?')
-        ? (this.allUserSets = this.allUserSets.filter((s) => s.id !== set.id))
+        ? (this.allUserSets = this.allUserSets.filter((s) => s.id !== set._id))
         : null;
     },
     playSet(set) {
-      this.$router.push({ path: '/game', query: { setId: set.id } });
+      this.$router.push({ path: '/game', query: { setId: set._id } });
     },
     editSet(set) {
-      this.$router.push({ path: '/card-create', query: { setId: set.id } });
+      this.$router.push({ path: '/card-create', query: { setId: set._id } });
     },
     async getSetTitle(setId) {
       try {
