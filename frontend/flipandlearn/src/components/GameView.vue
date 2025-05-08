@@ -31,7 +31,7 @@ import SingleSetPlay from './SingleSetPlay.vue';
 import SingleCard from './SingleCard.vue';
 import MatchButtons from './MatchButtons.vue';
 import api from '../plugins/axios.js';
-import { useAuthStore } from '../stores/auth-store.js';
+import { useAuthStore } from '@/stores/auth-store.js';
 
 export default {
   name: 'GameView',
@@ -46,9 +46,7 @@ export default {
 
     if (setId) {
       try {
-        const authStore = useAuthStore();
-        const currentUsername = authStore.username;
-        const response = await api.get(`/users/${currentUsername}/sets`);
+        const response = await api.get(`/sets/${setId}`);
         const fetchedSet = response.data;
 
         const shuffle = (array) => {
@@ -89,7 +87,9 @@ export default {
       }
     } else {
       try {
-        const response = await api.get('/sets');
+        const authStore = useAuthStore();
+        const currentUsername = authStore.user.username;
+        const response = await api.get(`/users/${currentUsername}/sets`);
         this.allUserSets = response.data;
       } catch (error) {
         this.errors.apiError = "Fehler beim Laden der Sets. Bitte versuchen Sie es erneut.";
