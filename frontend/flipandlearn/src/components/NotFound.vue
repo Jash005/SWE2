@@ -3,21 +3,35 @@
     <h1>404 - Oops! Seite nicht gefunden</h1>
     <p>Es sieht so aus, als ob du dich verlaufen hast...</p>
 
-    <span class="single-card">
-      <SingleCard />
-    </span>
+    <div class="not-found-card">
+      <vue-flip active-click="true" width="200px" height="250px">
+        <!-- This line is required because the library expects the attribute on the template tag -->
+        <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
+        <template v-slot:front class="front">
+          Bitte Klicken, für den Fall das du nicht mehr weiter weißt
+        </template>
+        <!-- This line is required because the library expects the attribute on the template tag -->
+        <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
+        <template v-slot:back class="back">
+          Bitte nochmals Klicken wenn du weiterhin nicht weiter weißt <br> <i>(du kommst hier nicht mehr raus)</i>
+        </template>
+      </vue-flip>
+    </div> <!-- END .not-found-card -->
 
     <router-link to="/" class="home-link">Zurück zur Startseite</router-link>
   </div> <!-- END .not-found -->
 </template>
 
 <script>
-import SingleCard from './SingleCard.vue';
+import { VueFlip } from 'vue-flip';
 
 export default {
   name: 'NotFound',
   components: {
-    SingleCard,
+    'vue-flip': VueFlip
+  },
+  mounted() {
+    console.log('NotFound component mounted');
   },
 };
 </script>
@@ -48,10 +62,9 @@ export default {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.single-card {
-  width: 300px;
-  height: auto;
-  margin: 15px auto;
+.not-found-card {
+  margin: 40px auto;
+  text-align: -webkit-center;
 }
 
 .home-link {

@@ -5,8 +5,8 @@ import GameView from "./components/GameView.vue";
 import CardManagmentView from "./components/CardManagmentView.vue";
 import ProfilView from "./components/ProfilView.vue";
 import CardCreateView from "./components/CardCreateView.vue";
-import NotFound from "./components/NotFound.vue";
 import GameResult from "./components/GameResult.vue";
+import NotFound from "./components/NotFound.vue";
 
 const routes = [
   { path: "/", name: "Home", component: HomeView },
