@@ -6,14 +6,14 @@
     </router-link>
 
     <ul>
-      <li><router-link to="/game">Spielen</router-link></li>
-      <li>
-        <router-link :to="isLoggedIn ? '/profil' : '/login'" @click.prevent="redirectToProfile">
+      <li v-if="isLoggedIn"><router-link to="/game">Spielen</router-link></li>
+      <li v-if="isLoggedIn">
+        <router-link to="/profil" @click.prevent="redirectToProfile">
           Profil
         </router-link>
       </li>
       <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
-      <li v-else>
+      <li v-if="isLoggedIn">
         <button class="logout-button" @click="logout">Logout</button>
       </li>
     </ul>
@@ -22,32 +22,34 @@
 
 <script>
 import { useAuthStore } from "@/stores/auth-store";
-import { useRouter } from "vue-router";
 
 export default {
   name: "NavigationBar",
-  setup() {
-    const authStore = useAuthStore();
-    const router = useRouter();
+  computed: {
+    isLoggedIn() {
+      return useAuthStore().isLoggedIn;
+    },
+  },
+  methods: {
+    logout() {
+      const authStore = useAuthStore();
 
-    const logout = () => {
       authStore.logout();
+      
+      // @Noemi: // Kleiner Hinweis: Hier lieber kein Reload, sondern einfach auf die Startseite weiterleiten.
+      // Schau dir gern die Funktion "redirectToProfile" an, falls du ein Beispiel brauchst.
+      // Und kannst du bitte diese Kommentare später löschen? danke 😄
       window.location.reload();
-    };
+    },
+    redirectToProfile() {
+      const authStore = useAuthStore();
 
-    const redirectToProfile = () => {
       if (authStore.isLoggedIn) {
-        router.push("/profil");
+        this.$router.push("/profil");
       } else {
-        router.push("/login");
+        this.$router.push("/login");
       }
-    };
-
-    return {
-      logout,
-      isLoggedIn: authStore.isLoggedIn,
-      redirectToProfile,
-    };
+    }
   },
 };
 </script>

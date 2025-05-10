@@ -7,18 +7,21 @@
       <ul>
         <li v-if="isLoggedIn"><router-link to="/game">Spielen</router-link></li>
         <li v-if="isLoggedIn"><router-link to="/profil">Profil</router-link></li>
-        <li><router-link to="/login">Login</router-link></li>
+        <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
       </ul>
     </nav>
   </article> <!-- END #home-view -->
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth-store';
+
 export default {
   name: 'HomeView',
   data() {
     return {
       animateLogo: true,
+      isLoggedIn: false,
     };
   },
   methods: {
@@ -34,6 +37,10 @@ export default {
   },
   mounted() {
     this.animateLogo = true;
+
+    // Check if the user is logged in
+    const authStore = useAuthStore();
+    this.isLoggedIn = authStore.isLoggedIn;
   },
 };
 </script>
