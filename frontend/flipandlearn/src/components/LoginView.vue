@@ -4,13 +4,13 @@
 
     <form @submit.prevent="handleSubmit">
       <BaseInputField v-model="username" label="Benutzername" placeholder="Dein Benutzername"
-                      :validation="usernameValidation" />
+        :validation="usernameValidation" />
 
       <BaseInputField v-model="password" label="Passwort" type="password" placeholder="Dein Passwort"
-                      :validation="passwordValidation" />
+        :validation="passwordValidation" />
 
       <BaseInputField v-if="!isLogin" v-model="displayName" label="Anzeigename" placeholder="Dein Anzeigename"
-                      :validation="validateDisplayName" />
+        :validation="validateDisplayName" />
 
       <button type="submit">{{ isLogin ? "Einloggen" : "Registrieren" }}</button>
     </form>
@@ -21,7 +21,7 @@
     <p @click="toggleMode">
       {{ isLogin ? "Noch keinen Account? Registriere dich!" : "Schon registriert? Jetzt einloggen!" }}
     </p>
-  </div>
+  </div> <!-- END .user-view -->
 </template>
 
 
@@ -56,6 +56,7 @@ export default {
   methods: {
     async handleSubmit() {
       if (this.isLogin) {
+        // Login form
         const token = btoa(`${this.username}:${this.password}`);
         try {
           const response = await api.post("/users/login", {}, {
@@ -74,7 +75,7 @@ export default {
 
             setTimeout(() => {
               this.$router.push("/profil");
-            }, 1000);            
+            }, 1000);
           }
         } catch (error) {
           console.error("Error while logging in:", error);
@@ -87,7 +88,7 @@ export default {
           }
         }
       } else {
-        // Registrierung
+        // Register form
         try {
           const response = await api.post("/users", {
             username: this.username,
@@ -128,24 +129,25 @@ export default {
       this.successMessage = "";
     },
 
+    /* ----------- Validation Functions -----------*/
     validateUsername(value) {
       const usernameRegex = /^[a-zA-Z0-9]{4,10}$/;
       return usernameRegex.test(value)
-          ? ""
-          : "Benutzername muss 4–10 Zeichen lang sein und darf nur Buchstaben und Zahlen enthalten.";
+        ? ""
+        : "Benutzername muss 4–10 Zeichen lang sein und darf nur Buchstaben und Zahlen enthalten.";
     },
 
     validatePassword(value) {
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,12}$/;
       return passwordRegex.test(value)
-          ? ""
-          : "Passwort muss 8–16 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und eines der Zeichen !@#$%^&* enthalten.";
+        ? ""
+        : "Passwort muss 8–16 Zeichen lang sein und mindestens einen Buchstaben, eine Zahl und eines der Zeichen !@#$%^&* enthalten.";
     },
 
     validateDisplayName(value) {
       return value.length >= 4 && value.length <= 30
-          ? ""
-          : "Anzeigename muss zwischen 4 und 30 Zeichen lang sein.";
+        ? ""
+        : "Anzeigename muss zwischen 4 und 30 Zeichen lang sein.";
     }
   }
 };
@@ -206,8 +208,8 @@ p:hover {
 }
 
 .error-message {
-  color: red;
-  background: #ffe0e0;
+  color: var(--error-color);
+  background: var(--general-font);
   padding: 10px;
   min-height: 1.2em;
   text-align: left;
@@ -216,8 +218,8 @@ p:hover {
 }
 
 .success-message {
-  color: green;
-  background: rgb(179, 255, 179);
+  color: var(--success-color);
+  background: var(--general-font);
   padding: 10px;
   min-height: 1.2em;
   text-align: left;

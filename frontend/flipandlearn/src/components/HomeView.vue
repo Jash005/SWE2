@@ -1,11 +1,6 @@
 <template>
   <article id="home-view">
-    <img
-        src="@/assets/logo.png"
-        alt="Logo"
-        :class="['logo', { animate: animateLogo }]"
-        @animationend="animationEnd"
-    />
+    <img src="@/assets/logo.png" alt="Logo" :class="['logo', { animate: animateLogo }]" @animationend="animationEnd" />
     <router-link to="/" class="title-link" @click="replayAnimation">FLIP & LEARN</router-link>
 
     <nav>
@@ -15,7 +10,7 @@
         <li><router-link to="/login">Login</router-link></li>
       </ul>
     </nav>
-  </article>
+  </article> <!-- END #home-view -->
 </template>
 
 <script>
@@ -68,6 +63,7 @@ export default {
     transform: translateY(-100px);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0);
     opacity: 1;

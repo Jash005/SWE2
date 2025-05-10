@@ -1,6 +1,5 @@
 <template>
-
-    <!-- show all Sets -->
+    HALLLOLLOOLLLO
     <section class="card-area" v-if="allUserSets.length > 0">
         <SingleSet v-for="set in allUserSets" :key="set.id" :set="set" @delete="deleteSet" @play="playSet"
             @edit="editSet" />
@@ -26,7 +25,7 @@ export default {
             allUserSets: [
                 { id: 1, name: 'Set 1' },
                 { id: 2, name: 'Set 2' }
-            ], // backend data needs
+            ],
         };
     },
     methods: {
@@ -35,14 +34,12 @@ export default {
             confirm('Möchten Sie das Set wirklich löschen?') ? this.allUserSets = this.allUserSets.filter(s => s.id !== set.id) : null;
         },
         playSet(set) {
-            console.log('Set spielen:', set);
             this.$router.push({
                 path: '/game',
                 query: { setId: set.id }
             });
         },
         editSet(set) {
-            console.log('Set bearbeiten:', set);
             this.$router.push({ path: '/card-create', query: { setId: set.id } });
         }
     }
@@ -51,25 +48,25 @@ export default {
 
 <style scoped>
 .card-area {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
 }
 
 .card-area h1 {
-  color: var(--general-font-header);
-  text-shadow: var(--font-header-shadow);
+    color: var(--general-font-header);
+    text-shadow: var(--font-header-shadow);
 }
 
 a {
-  color: var(--general-font);
-  text-decoration: none;
-  margin-top: 10px;
+    color: var(--general-font);
+    text-decoration: none;
+    margin-top: 10px;
 }
 
 a:hover {
-  color: var(--general-font);
+    color: var(--general-font);
 }
 </style>

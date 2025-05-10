@@ -8,10 +8,7 @@
     <ul>
       <li><router-link to="/game">Spielen</router-link></li>
       <li>
-        <router-link
-          :to="isLoggedIn ? '/profil' : '/login'"
-          @click.prevent="redirectToProfile"
-        >
+        <router-link :to="isLoggedIn ? '/profil' : '/login'" @click.prevent="redirectToProfile">
           Profil
         </router-link>
       </li>
@@ -20,7 +17,7 @@
         <button class="logout-button" @click="logout">Logout</button>
       </li>
     </ul>
-  </nav>
+  </nav> <!-- END #navigation-bar -->
 </template>
 
 <script>
@@ -33,13 +30,11 @@ export default {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    // Logout-Funktion
     const logout = () => {
       authStore.logout();
-      window.location.reload(); // Optional: Seite neu laden oder zur Login-Seite navigieren
+      window.location.reload();
     };
 
-    // Redirect-Funktion für Profil
     const redirectToProfile = () => {
       if (authStore.isLoggedIn) {
         router.push("/profil");
@@ -134,6 +129,7 @@ a:hover {
     gap: 40px;
     padding: 20px;
   }
+
   .logo-container h1 {
     margin: 30px;
     writing-mode: vertical-rl;

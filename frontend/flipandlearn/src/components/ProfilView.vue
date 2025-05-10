@@ -11,12 +11,12 @@
           <SingleSet v-for="set in allUserSets" :key="set.id" :set="set" @delete="deleteSet" @play="playSet"
             @edit="editSet" />
         </div>
-      </section>
+      </section> <!-- END .card-area -->
 
       <section class="card-area" v-else>
         <router-link to="/card-create" class="create-button">+ Set erstellen</router-link>
         <h1>no sets available</h1>
-      </section>
+      </section> <!-- END .card-area -->
 
       <section class="recent-games">
         <h4>Letzte Spiele</h4>
@@ -26,9 +26,9 @@
             <span class="game-score">{{ game.scores }} Punkte</span>
           </div>
         </div>
-      </section>
-    </article>
-  </div>
+      </section> <!-- END .recent-games -->
+    </article> <!-- END article -->
+  </div> <!-- END .user-view -->
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
       recentGames: [],
     };
   },
-  async mounted () {
+  async mounted() {
     try {
       const token = btoa(`${this.username}:${JSON.parse(localStorage.getItem("user")).password}`);
 
@@ -63,7 +63,6 @@ export default {
       const data = await response.json();
       this.allUserSets = data;
 
-      // API-Call: Scores abrufen
       const responseScores = await fetch(`http://localhost:3000/api/scores/${this.username}`, {
         method: "GET",
         headers: {
@@ -78,11 +77,9 @@ export default {
 
       const userScores = await responseScores.json();
 
-      // Sort scores by date (descending)
       userScores.sort((a, b) => new Date(b.playedAt).getTime() - new Date(a.playedAt).getTime());
 
-      // Nur die höchsten x Einträge (default sind 5)
-      const topX = 5; // Anzahl der gewünschten Einträge
+      const topX = 5;
       this.recentGames = userScores.slice(0, topX);
     } catch (error) {
       console.error(error);
@@ -103,7 +100,8 @@ export default {
     editSet(set) {
       this.$router.push({ path: '/card-create', query: { setId: set._id } });
     },
-  },};
+  },
+};
 </script>
 
 <style scoped>

@@ -23,7 +23,7 @@
           :active-click="card.activeClick" v-bind:class="{ hidden: card.hidden }" @click="flipCard(card)" />
       </section>
     </article>
-  </div>
+  </div> <!-- END .game-view -->
 </template>
 
 <script>
@@ -91,7 +91,6 @@ export default {
         const currentUsername = authStore.user.username;
         const response = await api.get(`/users/${currentUsername}/sets`);
         this.allUserSets = response.data;
-        console.log('Fetched sets:', this.allUserSets);
       } catch (error) {
         this.errors.apiError = "Fehler beim Laden der Sets. Bitte versuchen Sie es erneut.";
         console.error('Error fetching sets:', error);
@@ -112,7 +111,7 @@ export default {
     };
   },
   methods: {
-    //--- set logic --//
+    /* ----------- Logic for load selected Set -----------*/
     async playSet(set) {
       try {
         const response = await api.get(`/sets/${set._id}/random?numCards=8`);
@@ -151,15 +150,13 @@ export default {
           )
 
         };
-        console.log('selected set:', this.selectedSet);
-        console.log('set id:', this.selectedSet.id);
       } catch (error) {
         this.errors.apiError = "Fehler beim Laden des ausgewählten Sets. Bitte versuchen Sie es erneut.";
         console.error('Error fetching set details:', error);
       }
     },
 
-    //--- memory game logic --//
+    /* ----------- Memory game Logic -----------*/
     flipCard(card) {
       if (this.flippedCards.length >= 2 || !card.activeClick) {
         return;
@@ -180,21 +177,17 @@ export default {
 
         if (isMatch === isCorrectMatch) {
           if (isCorrectMatch) {
-            console.log('Richtiges Paar gefunden:', card1, card2);
             this.gameScore += 1;
-            console.log('Aktueller Punktestand:', this.gameScore);
             card1.hidden = true;
             card2.hidden = true;
           }
         } else {
-          if(this.gameScore > 0) {
+          if (this.gameScore > 0) {
             this.gameScore -= 1;
-            console.log('Aktueller Punktestand:', this.gameScore);
           }
         }
 
         if (this.selectedSet.cardPair.every(card => card.hidden)) {
-          console.log('Alle Paare gefunden!');
           this.finishGame();
         } else {
           this.resetFlippedCards();
@@ -212,15 +205,13 @@ export default {
       }, 100);
     },
 
+    /* ----------- End of Memory game Logic -----------*/
     finishGame() {
       console.log('Spiel beendet!');
 
-      //this.selectedSet = null;
-      //this.flippedCards = [];
-
-      this.$router.push({ 
-        name: 'GameResult', 
-        query: { score: this.gameScore, moves: this.moves, setId: this.selectedSet.id, setTitle: this.selectedSet.title } 
+      this.$router.push({
+        name: 'GameResult',
+        query: { score: this.gameScore, moves: this.moves, setId: this.selectedSet.id, setTitle: this.selectedSet.title }
       });
     }
   }
@@ -261,23 +252,17 @@ h3 {
 
 .card-area>* {
   grid-column: span 1;
-  /* Jede Karte nimmt genau eine Spalte ein */
   grid-row: span 1;
-  /* Jede Karte nimmt genau eine Zeile ein */
   visibility: visible;
-  /* Standardmäßig sichtbar */
 }
 
 .card-area>.hidden {
   visibility: hidden;
-  /* Karten, die entfernt werden, bleiben unsichtbar */
 }
 
 .match-buttons {
   margin-bottom: 20px;
-  /* Abstand nach unten */
   height: 50px;
-  /* Feste Höhe, um Platz zu reservieren */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -285,7 +270,6 @@ h3 {
 
 .match-buttons.hidden {
   visibility: hidden;
-  /* Unsichtbar, aber Platz bleibt reserviert */
 }
 
 @media (min-width: 768px) {

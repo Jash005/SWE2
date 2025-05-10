@@ -3,7 +3,7 @@
         <h1>Du hast es{{ moves ? ' mit ' + moves + ' Versuchen ' : '' }} geschafft!</h1>
 
         <h2 v-if=scores>Dein Punktestand: {{ scores }}</h2>
-    
+
         <p>Glückwunsch!</p>
         <div class="button-wrapper">
             <router-link to="/" class="yellow-btn">
@@ -15,15 +15,15 @@
                 Nochmal
                 <span class="material-symbols-outlined">replay</span>
             </router-link>
-        </div>
-    </div>    
+        </div> <!-- END .button-wrapper -->
+    </div> <!-- END .content -->
 </template>
 
 <script>
-    import { useAuthStore } from '@/stores/auth-store';
-    import api from '@/plugins/axios';
+import { useAuthStore } from '@/stores/auth-store';
+import api from '@/plugins/axios';
 
-    export default {
+export default {
     name: 'GameResult',
     data() {
         return {
@@ -35,31 +35,28 @@
         };
     },
     async mounted() {
-        // Check if the user is logged in and if the set Id and scores are available
-        // If so, send the scores to the backend
         const authStore = useAuthStore();
-        
+
         if (authStore.isLoggedIn && this.scores && this.setId) {
             const token = btoa(`${authStore.user.username}:${authStore.user.password}`);
             try {
-                const response = await api.post("/scores", 
-                {
-                    set: {
-                        setId: this.setId,
-                        setTitle: this.setTitle,
+                const response = await api.post("/scores",
+                    {
+                        set: {
+                            setId: this.setId,
+                            setTitle: this.setTitle,
+                        },
+                        username: authStore.user.username,
+                        scores: this.scores,
+                        moves: this.moves,
                     },
-                    username: authStore.user.username,
-                    scores: this.scores,
-                    moves: this.moves,
-                },
-                {
-                    headers: {
-                        Authorization: `Basic ${token}`,
-                    },
-                });
+                    {
+                        headers: {
+                            Authorization: `Basic ${token}`,
+                        },
+                    });
                 console.log("Score response:", response);
-                if(!response.status == 201) {
-                    // TODO: Show error message to user?
+                if (!response.status == 201) {
                     console.log("Error while sending scores:", response);
                 }
             }
@@ -71,59 +68,62 @@
             console.log("Missing data");
         }
     },
-    };
+};
 </script>
 
 <style scoped>
-    h1 {
-        color: var(--general-font-header);
-        text-shadow: var(--font-header-shadow);
-        margin-bottom: 20px;
-    }
-    .content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start; 
-        padding: 2rem 1rem;
-        min-height: 100vh;
-        text-align: center;
-    }
+h1 {
+    color: var(--general-font-header);
+    text-shadow: var(--font-header-shadow);
+    margin-bottom: 20px;
+}
 
-    /* For screens bigger than mobile */
-    @media (min-width: 600px) {
-        .content {
-            justify-content: center; 
-            padding: 0 2rem;
-        }
-    }
-    .button-wrapper {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: center;
-        gap: 15px;
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.button-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.yellow-btn {
+    background-color: var(--button);
+    color: var(--black-font);
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: var(--button-shadow);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.yellow-btn:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+}
+
+@media (min-width: 600px) {
+    .content {
         justify-content: center;
-        align-items: center;
+        padding: 0 2rem;
     }
-    .yellow-btn {
-        background-color: var(--button);
-        color: var(--black-font);
-        padding: 12px 24px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        box-shadow: var(--button-shadow);
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: flex-end;
-        justify-content: center;
-    }
-    .yellow-btn:hover {
-        background-color: var(--button-hover);
-        transform: translateY(-2px);
-    }
+}
 </style>

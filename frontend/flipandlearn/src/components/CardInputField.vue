@@ -1,43 +1,26 @@
 <template>
   <div>
     <form @submit.prevent="addSet">
-      <!-- Title input field -->
-      <input
-        v-model="setModel.title"
-        class="h2-input"
-        placeholder="Titel..."
-        required
-        @blur="updateTitle"
-      />
+      <input v-model="setModel.title" class="h2-input" placeholder="Titel..." required @blur="updateTitle" />
       <div v-if="errors.title" class="error-message">{{ errors.title }}</div>
 
       <div class="card-input-container">
         <div class="card-input-wrapper">
-          <!-- Question input card -->
-          <textarea
-            v-model="currentQuestion"
-            :class="{ 'error-card': errors.cardPair?.question }"
-            class="card-input"
-            placeholder="Frage eingeben"
-          />
+          <textarea v-model="currentQuestion" :class="{ 'error-card': errors.cardPair?.question }" class="card-input"
+            placeholder="Frage eingeben" />
           <div v-if="errors.cardPair?.question" class="error-message">
             {{ errors.cardPair.question }}
           </div>
-        </div>
+        </div> <!-- END .card-input-wrapper -->
 
         <div class="card-input-wrapper">
-          <!-- Answer input card -->
-          <textarea
-            v-model="currentAnswer"
-            :class="{ 'error-card': errors.cardPair?.answer }"
-            class="card-input"
-            placeholder="Antwort eingeben"
-          />
+          <textarea v-model="currentAnswer" :class="{ 'error-card': errors.cardPair?.answer }" class="card-input"
+            placeholder="Antwort eingeben" />
           <div v-if="errors.cardPair?.answer" class="error-message">
             {{ errors.cardPair.answer }}
           </div>
-        </div>
-      </div>
+        </div> <!-- END .card-input-wrapper -->
+      </div> <!-- END .card-input-container -->
       <div v-if="errors.cardPair.lengthError" class="error-message">
         {{ errors.cardPair.lengthError }}
       </div>
@@ -51,7 +34,7 @@
           Erstellen
         </button>
         <button type="submit" class="create-set-btn">{{ set._id ? "Speichern" : "Fertig" }}</button>
-      </div>
+      </div> <!-- END .button-wrapper -->
     </form>
   </div>
 </template>
@@ -66,7 +49,6 @@ export default {
     },
   },
   watch: {
-    // Watcher to update the set model when the set prop changes
     set: {
       immediate: true,
       handler(newVal) {
@@ -78,14 +60,10 @@ export default {
   },
   data() {
     return {
-      index: 0, // Temporary index for card pairs for frontend
-      // Model for set which will be sent to backend
+      index: 0,
       setModel: { ...this.set },
-      // Model for current card pair (question and answer)
-      // which will be added to the set model
       currentQuestion: "",
       currentAnswer: "",
-      // Error messages for validation
       errors: {
         title: "",
         cardPair: [],
@@ -94,7 +72,6 @@ export default {
     };
   },
   methods: {
-    // Method to update the title in the set model in parent component
     updateTitle() {
       if (!this.setModel.title.trim()) return;
 
@@ -102,13 +79,8 @@ export default {
         this.$emit("update-title", this.setModel.title);
       }
     },
-    // Method to emit event to parent component
-    // and add it to the set model
     submitCard() {
-      // Validate card pair
       if (this.validateCardPair()) {
-        // Emit event to the parent component
-        // to add the card to the shown existing/added cards deck
         this.$emit("add-card", {
           question: this.currentQuestion,
           answer: this.currentAnswer,
@@ -119,7 +91,6 @@ export default {
         console.log("Question or answer invalid:", this.errors);
       }
     },
-    // Method containing API call to backend to add a new set
     async addSet() {
       if (this.currentQuestion.trim() || this.currentAnswer.trim()) {
         this.warning =
@@ -137,13 +108,11 @@ export default {
         console.log("Form invalid:", this.errors);
       }
     },
-    // Method to validate current card pair
+    /* ----------- Validation Functions -----------*/
     validateCardPair() {
       let isValid = true;
-      // Allowed pattern for questions and answers
       const qaPattern = /^[\w\d\s\-_,.!?’()+%/&äöüÄÖÜß]{3,70}$/;
 
-      // Reset errors
       this.errors.cardPair = [];
 
       if (!this.currentQuestion.trim() || !this.currentAnswer.trim()) {
@@ -153,7 +122,6 @@ export default {
         return isValid;
       }
 
-      // Validate question and answer
       const pairErrors = {};
       if (!qaPattern.test(this.currentQuestion)) {
         pairErrors.question =
@@ -169,18 +137,14 @@ export default {
 
       return isValid;
     },
-    // Method to validate the set title and card pairs
     validateSet() {
       let isValid = true;
 
-      // Reset errors
       this.errors.title = "";
       this.errors.cardPair = [];
 
-      // Validate title
       isValid = this.validateTitle();
 
-      // Validate cardPairs count
       if (this.setModel.cardPair.length < 2) {
         this.errors.cardPair.lengthError =
           "Mindestens zwei Kartenpaare sind erforderlich.";
@@ -194,13 +158,10 @@ export default {
     validateTitle() {
       let isValid = true;
 
-      // Allowed pattern for title
       const allowedPattern = /^[\w\d\s\-_,.!?’()+/&äöüÄÖÜß]{3,100}$/;
 
-      // Reset errors
       this.errors.title = "";
 
-      // Validate title
       if (!allowedPattern.test(this.setModel.title)) {
         this.errors.title =
           "Titel muss zwischen 3 und 100 Zeichen sein und nur erlaubte Sonderzeichen enthalten.";
@@ -228,6 +189,7 @@ form {
   margin-top: 40px;
   margin-bottom: 50px;
 }
+
 textarea {
   padding: 12px;
   font-size: 15px;
@@ -244,6 +206,7 @@ textarea {
   display: block;
   max-width: 100%;
 }
+
 ::v-deep(.h2-input::placeholder) {
   color: var(--general-font-header);
   opacity: 0.9;
@@ -259,11 +222,13 @@ textarea {
   margin-top: 20px;
   align-items: flex-start;
 }
+
 .card-input-wrapper {
   flex: 1 1 40%;
   display: flex;
   flex-direction: column;
 }
+
 .card-input {
   min-height: 100px;
   padding: 1rem;
@@ -275,9 +240,11 @@ textarea {
   transition: box-shadow 0.2s ease;
   border: 1px solid var(--button);
 }
+
 .card-input:hover {
   outline: 5px solid var(--background);
 }
+
 ::v-deep(.card-input::placeholder) {
   color: var(--navbar-font);
   opacity: 0.9;
@@ -287,21 +254,24 @@ textarea {
   outline-color: var(--error-color);
   color: var(--error-color);
 }
+
 .error-card:hover {
   outline-color: var(--error-color);
 }
+
 .error-message {
-  color: red;
+  color: var(--error-color);
   margin-top: 10px;
   background: #ffe0e0;
   padding: 10px;
   min-height: 1.2em;
   text-align: left;
 }
+
 .warning-message {
-  color: orange;
+  color: var(--black-font);
   margin-top: 10px;
-  background: rgb(255, 228, 178);
+  background: var(--warning-color);
   padding: 10px;
   min-height: 1.2em;
   text-align: left;
@@ -314,6 +284,7 @@ textarea {
   justify-content: center;
   margin-top: 20px;
 }
+
 button {
   background-color: var(--button);
   color: var(--button-font);
@@ -326,13 +297,16 @@ button {
   font-size: 16px;
   font-weight: 500;
 }
+
 button:hover {
   background-color: var(--general-font-hover);
   transform: translateY(-2px);
 }
+
 .card-btn {
   width: 70%;
 }
+
 .create-set-btn {
   width: 30%;
 }
