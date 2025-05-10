@@ -27,7 +27,6 @@
       <div v-if="errors.cardPair.missingFieldsError" class="error-message">
         {{ errors.cardPair.missingFieldsError }}
       </div>
-      <div v-if="warning" class="warning-message">{{ warning }}</div>
 
       <div class="button-wrapper">
         <button type="button" class="card-btn" @click="submitCard">
@@ -67,8 +66,7 @@ export default {
       errors: {
         title: "",
         cardPair: [],
-      },
-      warning: "",
+      }
     };
   },
   methods: {
@@ -93,9 +91,8 @@ export default {
     },
     async addSet() {
       if (this.currentQuestion.trim() || this.currentAnswer.trim()) {
-        this.warning =
-          "Möchten Sie das Kartenpaar erstellen? Das Kartenpaar wird nicht gespeichert.";
-        return;
+        // Add card to setModel if question or answer is not empty
+        this.submitCard();
       }
       if (this.validateSet()) {
         this.$emit("create-set", this.setModel);
@@ -263,15 +260,6 @@ textarea {
   color: var(--error-color);
   margin-top: 10px;
   background: #ffe0e0;
-  padding: 10px;
-  min-height: 1.2em;
-  text-align: left;
-}
-
-.warning-message {
-  color: var(--black-font);
-  margin-top: 10px;
-  background: var(--warning-color);
   padding: 10px;
   min-height: 1.2em;
   text-align: left;
