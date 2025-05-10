@@ -176,29 +176,6 @@ form {
   gap: 16px;
 }
 
-input {
-  padding: 12px;
-  background-color: var(--input-field);
-  border: 1px solid var(--input-field-border);
-  border-radius: 10px;
-  color: var(--black-font);
-  font-size: 15px;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-input:focus {
-  background-color: var(--input-field);
-  color: var(--black-font);
-  border-color: var(--general-font);
-  outline: none;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--input-field) inset;
-  -webkit-text-fill-color: var(--general-font);
-  transition: background-color 5000s ease-in-out 0s;
-}
 
 button {
   background-color: var(--button);

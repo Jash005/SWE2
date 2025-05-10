@@ -94,7 +94,7 @@ input:focus {
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--input-field) inset;
-  -webkit-text-fill-color: var(--general-font);
+  -webkit-text-fill-color: var(--black-font);
   transition: background-color 5000s ease-in-out 0s;
 }
 
