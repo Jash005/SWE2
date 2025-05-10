@@ -55,7 +55,7 @@ export default {
                             Authorization: `Basic ${token}`,
                         },
                     });
-                console.log("Score response:", response);
+                    
                 if (!response.status == 201) {
                     console.log("Error while sending scores:", response);
                 }
