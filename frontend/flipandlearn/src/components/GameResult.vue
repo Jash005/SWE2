@@ -27,7 +27,7 @@
     name: 'GameResult',
     data() {
         return {
-            gamePath: this.$route.query.setId ? "/game/setId=" + this.$route.query.setId : "/game",
+            gamePath: this.$route.query.setId ? "/game?setId=" + this.$route.query.setId : "/game",
             scores: this.$route.query.score || null,
             moves: this.$route.query.moves || null,
             setId: this.$route.query.setId || null,
