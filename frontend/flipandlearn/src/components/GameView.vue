@@ -19,7 +19,7 @@
       </section>
 
       <section class="card-area">
-        <SingleCard v-for="card in selectedSet.cardPair.slice(0, 16)" :key="card.id" :card="card"
+        <SingleCard v-for="card in selectedSet.cardPair" :key="card.id" :card="card"
           :active-click="card.activeClick" v-bind:class="{ hidden: card.hidden }" @click="flipCard(card)" />
       </section>
     </article>
@@ -46,7 +46,7 @@ export default {
 
     if (setId) {
       try {
-        const response = await api.get(`/sets/${setId}`);
+        const response = await api.get(`/sets/${setId}/random?numCards=8`);
         const fetchedSet = response.data;
 
         const shuffle = (array) => {
