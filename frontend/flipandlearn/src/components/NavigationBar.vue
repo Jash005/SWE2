@@ -17,7 +17,8 @@
       </li>
       <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
       <li v-else>
-        <button class="logout-button" @click="logout">Logout</button>
+        <router-link to="/logout">Logout</router-link>
+
       </li>
     </ul>
   </nav>
