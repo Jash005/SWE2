@@ -1,11 +1,6 @@
 <template>
     <div class="single-card">
-        <vue-flip 
-            v-model="localFlipped" 
-            :active-click="activeClick"
-            :active-hover="false"
-            :flip-time="0.5"
-            width="100%"
+        <vue-flip v-model="localFlipped" :active-click="activeClick" :active-hover="false" :flip-time="0.5" width="100%"
             height="100%">
             <!-- This line is required because the library expects the attribute on the template tag -->
             <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
@@ -19,7 +14,7 @@
                 <span class="text-back">{{ card?.content || "Keine Antwort" }}</span>
             </template>
         </vue-flip>
-    </div>
+    </div> <!-- END .single-card -->
 </template>
 
 <script>
@@ -42,18 +37,17 @@ export default {
     },
     data() {
         return {
-            localFlipped: this.card.flipped // Lokale Kopie der flipped-Eigenschaft
+            localFlipped: this.card.flipped
         };
     },
     watch: {
-        // Überwacht Änderungen an der Prop und aktualisiert die lokale Kopie
         'card.flipped': {
             immediate: true,
             handler(newValue) {
                 this.localFlipped = newValue;
             }
         },
-        // Überwacht Änderungen an der lokalen Kopie und gibt sie an die übergeordnete Komponente weiter
+
         localFlipped(newValue) {
             this.$emit('update:flipped', newValue);
         }
@@ -89,7 +83,6 @@ export default {
 @media screen and (min-width: 768px) {
     .single-card {
         min-width: calc(100% / 6);
-        /* max-width: calc(100% / 0.2); */
     }
 }
 </style>

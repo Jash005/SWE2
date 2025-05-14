@@ -1,32 +1,20 @@
 <template>
   <div class="card-container">
     <div class="card-wrapper">
-      <textarea
-        v-model="cardModel.question"
-        :readonly="editCardPairId !== card.pairId"
-        :class="{ 'error-card': errors?.question }"
-        class="card"
-      />
+      <textarea v-model="cardModel.question" :readonly="editCardPairId !== card.pairId"
+        :class="{ 'error-card': errors?.question }" class="card" />
       <div v-if="errors?.question" class="error-message">
         {{ errors.question }}
       </div>
-    </div>
+    </div> <!-- END .card-wrapper -->
     <div class="card-wrapper">
-      <textarea
-        v-model="cardModel.answer"
-        :readonly="editCardPairId !== card.pairId"
-        :class="{ 'error-card': errors?.answer }"
-        class="card"
-      />
+      <textarea v-model="cardModel.answer" :readonly="editCardPairId !== card.pairId"
+        :class="{ 'error-card': errors?.answer }" class="card" />
       <div v-if="errors?.answer" class="error-message">{{ errors.answer }}</div>
-    </div>
+    </div> <!-- END .card-wrapper -->
 
     <div class="action-wrapper">
-      <span
-        v-if="!editMode"
-        @click="allowCardEdit"
-        class="material-symbols-outlined"
-      >
+      <span v-if="!editMode" @click="allowCardEdit" class="material-symbols-outlined">
         edit
       </span>
       <span v-else @click="editCard" class="material-symbols-outlined">
@@ -35,8 +23,8 @@
       <span class="material-symbols-outlined" @click="deleteCard">
         delete
       </span>
-    </div>
-  </div>
+    </div> <!-- END .action-wrapper -->
+  </div> <!-- END .card-container -->
 </template>
 
 <script>
@@ -64,9 +52,6 @@ export default {
     allowCardEdit() {
       this.editMode = true;
       this.editCardPairId = this.cardModel.pairId;
-      // Emit event to the parent component
-      // to add the card to the shown existing/added cards deck
-      /// this.$emit("edit-card", { pairId: this.cardModel.pairId });
     },
     editCard() {
       if (this.validateCard()) {
@@ -78,7 +63,6 @@ export default {
         });
       } else {
         console.log("Error");
-        //this.errors.formError = 'Bitte alle Felder ausfüllen.';
       }
     },
     deleteCard() {
@@ -86,10 +70,8 @@ export default {
     },
     validateCard() {
       let isValid = true;
-      // Allowed pattern for questions and answers
       const qaPattern = /^[\w\d\s\-_,.!?’()+%/&äöüÄÖÜß]{3,70}$/;
 
-      // Reset errors
       this.errors = {};
 
       if (!this.cardModel.question.trim() || !this.cardModel.answer.trim()) {
@@ -98,7 +80,7 @@ export default {
         return isValid;
       }
 
-      // Validate question and answer
+      /* ----------- Validation Function -----------*/
       const pairErrors = {};
       if (!qaPattern.test(this.cardModel.question)) {
         pairErrors.question =
@@ -119,22 +101,22 @@ export default {
 </script>
 
 <style scoped>
-
 .card-container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
-  margin-top: 20px;
-  max-width: 500px;
+  margin-top: 30px;
   width: 100%;
 }
+
 .card-wrapper {
-  flex: 1 1 calc(39% - 0.5rem);
+  flex: 1 1 100%;
   display: flex;
   flex-direction: column;
 }
+
 .card {
   min-height: 100px;
   padding: 1rem;
@@ -146,28 +128,23 @@ export default {
   transition: box-shadow 0.2s ease;
   border: 1px solid var(--button);
 }
+
 .error-card {
   outline-color: var(--error-color);
   color: var(--error-color);
 }
+
 .error-card:hover {
   outline-color: var(--error-color);
 }
 
 .action-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   gap: 0.5rem;
-  /* visibility: hidden; 
-  opacity: 0; 
-  transition: opacity 0.3s ease; */
 }
-
-/* .card-container:hover .action-wrapper {
-  visibility: visible;
-  opacity: 1;
-} */
 
 .material-symbols-outlined {
   cursor: pointer;
@@ -178,23 +155,6 @@ export default {
   transform: scale(1.2);
 }
 
-/* Mobile-View */
-@media (max-width: 767px) {
-  .card-container {
-    margin-top: 30px;
-  }
-  .card-wrapper {
-    flex: 1 1 100%;
-  }
-
-  .action-wrapper {
-    flex-direction: row;
-    flex: 1 1 100%;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
 .error-message {
   color: red;
   margin-top: 10px;
@@ -202,5 +162,25 @@ export default {
   padding: 10px;
   min-height: 1.2em;
   text-align: left;
+}
+
+@media (min-width: 768px) {
+  .card-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 20px;
+    max-width: 500px;
+  }
+
+  .card-wrapper {
+    flex: 1 1 calc(39% - 0.5rem);
+  }
+
+  .action-wrapper {
+    flex-direction: column;
+  }
 }
 </style>

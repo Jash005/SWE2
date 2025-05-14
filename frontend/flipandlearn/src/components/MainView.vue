@@ -1,23 +1,23 @@
 <template>
-    <div id="flex-container">
-        <div v-if="$route.path !== '/'" id="navigation">
-            <NaviagtionBar />
-        </div> <!-- ENDE navigation -->
+  <div id="flex-container">
+    <div v-if="$route.path !== '/'" id="navigation">
+      <NaviagtionBar />
+    </div>
 
-        <div id="content">
-            <RouterView />
-        </div> <!-- ENDE content -->
-    </div> <!-- ENDE flex-container -->
+    <div id="content">
+      <RouterView />
+    </div>
+  </div> <!-- END #flex-container -->
 </template>
 
 <script>
 import NaviagtionBar from './NavigationBar.vue';
 
 export default {
-    name: 'MainView',
-    components: {
-        NaviagtionBar
-    }
+  name: 'MainView',
+  components: {
+    NaviagtionBar
+  }
 }
 </script>
 
@@ -45,7 +45,7 @@ export default {
   }
 
   #content {
-      padding: 1vh 1vw;
+    padding: 1vh 1vw;
   }
 
   #navigation {

@@ -11,24 +11,24 @@
           <SingleSet v-for="set in allUserSets" :key="set.id" :set="set" @delete="deleteSet" @play="playSet"
             @edit="editSet" />
         </div>
-      </section>
+      </section> <!-- END .card-area -->
 
       <section class="card-area" v-else>
         <router-link to="/card-create" class="create-button">+ Set erstellen</router-link>
         <h1>no sets available</h1>
-      </section>
+      </section> <!-- END .card-area -->
 
       <section class="recent-games">
         <h4>Letzte Spiele</h4>
         <div class="recent-games-list">
-          <div v-for="game in recentGames" :key="game.id" class="recent-game-item" @click="playSet(game)">
-            <span class="game-name">{{ getSetTitle(game.setId) }}</span>
-            <span class="game-score">{{ game.score }} Punkte</span>
+          <div v-for="game in recentGames" :key="game.id" class="recent-game-item" @click="playThisSet(game.set.setId)">
+            <span class="game-name">{{ game.set.setTitle }}</span>
+            <span class="game-score">{{ game.scores }} Punkte</span>
           </div>
         </div>
-      </section>
-    </article>
-  </div>
+      </section> <!-- END .recent-games -->
+    </article> <!-- END article -->
+  </div> <!-- END .user-view -->
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
       recentGames: [],
     };
   },
-  async mounted () {
+  async mounted() {
     try {
       const token = btoa(`${this.username}:${JSON.parse(localStorage.getItem("user")).password}`);
 
@@ -63,10 +63,7 @@ export default {
       const data = await response.json();
       this.allUserSets = data;
 
-      // Fetch recent games
-
-      // API-Call: Scores abrufen
-      const responseScores = await fetch(`http://localhost:3000/api/scores`, {
+      const responseScores = await fetch(`http://localhost:3000/api/scores/${this.username}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -78,20 +75,12 @@ export default {
         throw new Error("Fehler beim Abrufen der Scores");
       }
 
-      const scores = await responseScores.json();
-      console.log(scores);
-      // Filtern: Nur Einträge, die zum aktuellen Benutzer passen
-      const userScores = scores.filter((score) => score.username === this.username);
-      console.log(userScores);
-      // Sortieren: Absteigend nach `setId`
-      // Macht keinn Sinn mehr, da random
-      userScores.sort((a, b) => b.setId - a.setId);
+      const userScores = await responseScores.json();
 
-      // Nur die höchsten x Einträge (default sind 3)
-      const topX = 3; // Anzahl der gewünschten Einträge
+      userScores.sort((a, b) => new Date(b.playedAt).getTime() - new Date(a.playedAt).getTime());
+
+      const topX = 5;
       this.recentGames = userScores.slice(0, topX);
-
-      console.log("Gefilterte und sortierte Scores:", JSON.stringify(this.recentGames));
     } catch (error) {
       console.error(error);
     }
@@ -105,32 +94,14 @@ export default {
     playSet(set) {
       this.$router.push({ path: '/game', query: { setId: set._id } });
     },
+    playThisSet(setId) {
+      this.$router.push({ path: '/game', query: { setId } });
+    },
     editSet(set) {
       this.$router.push({ path: '/card-create', query: { setId: set._id } });
     },
-    async getSetTitle(setId) {
-      try {
-        const token = btoa(`${this.username}:${JSON.parse(localStorage.getItem("user")).password}`);
-
-        const response = await fetch(`http://localhost:3000/api/sets/${setId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${token}`,
-          }
-        });
-        if (!response.ok) {
-          throw new Error('Fehler beim Abrufen des Sets');
-        }
-        const data = await response.json();
-        console.log(data);
-        console.log(data.title);
-        return data.title;
-      } catch (error) {
-          console.error(error);
-      }
-    },
-  },};
+  },
+};
 </script>
 
 <style scoped>

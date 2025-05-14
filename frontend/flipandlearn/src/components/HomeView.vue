@@ -1,29 +1,27 @@
 <template>
   <article id="home-view">
-    <img
-        src="@/assets/logo.png"
-        alt="Logo"
-        :class="['logo', { animate: animateLogo }]"
-        @animationend="animationEnd"
-    />
+    <img src="@/assets/logo.png" alt="Logo" :class="['logo', { animate: animateLogo }]" @animationend="animationEnd" />
     <router-link to="/" class="title-link" @click="replayAnimation">FLIP & LEARN</router-link>
 
     <nav>
       <ul>
         <li v-if="isLoggedIn"><router-link to="/game">Spielen</router-link></li>
         <li v-if="isLoggedIn"><router-link to="/profil">Profil</router-link></li>
-        <li><router-link to="/login">Login</router-link></li>
+        <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
       </ul>
     </nav>
-  </article>
+  </article> <!-- END #home-view -->
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth-store';
+
 export default {
   name: 'HomeView',
   data() {
     return {
       animateLogo: true,
+      isLoggedIn: false,
     };
   },
   methods: {
@@ -39,6 +37,10 @@ export default {
   },
   mounted() {
     this.animateLogo = true;
+
+    // Check if the user is logged in
+    const authStore = useAuthStore();
+    this.isLoggedIn = authStore.isLoggedIn;
   },
 };
 </script>
@@ -68,6 +70,7 @@ export default {
     transform: translateY(-100px);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0);
     opacity: 1;

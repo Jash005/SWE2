@@ -1,17 +1,3 @@
-/* Grau-grünes Design:
-/*:root {*/
-/*    --background: #2f3c4a;*/
-/*    --boxes: #2c3e50;*/
-/*    --bright-font: #41B883;*/
-/*    --bright-font-hover: #277c55;*/
-/*    --dark-font: #1e5a40;*/
-/*    --dark-font-hover: #164c35;*/
-/*    --white-font: #eeeeee;*/
-/*    --color-input-bg: #1a1a1a;*/
-/*    --color-border: #35495e;*/
-/*    --navbar-background: #283240;*/
-/*}*/
-
 :root {
     --black-font: #000000;
     --general-font: #faf1da;
@@ -30,9 +16,6 @@
     --home-font-header-hover: #edb402;
     --navbar-background: #fdc01e;
     --navbar-border: #fdeaa9;
-    /*--navbar-font: #fffdf1;*/
-    /*--navbar-font-hover: #fad76e;*/
-    /*--navbar-font: #2d7a6e;*/
     --navbar-font: #2d7a6e;
     --navbar-font-hover: #24685f;
     --input-field: #fdf6e2;
@@ -40,5 +23,7 @@
     --input-field-border: #668a82;
     --label-font: #fdfaf1;
     --input-card-background: #c6ffbf;
-    --error-color: red;
+    --error-color: #ff0000;
+    --warning-color: #ffcc00;
+    --success-color: #14a314;
 }
