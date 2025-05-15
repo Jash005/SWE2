@@ -88,8 +88,29 @@ export default {
   methods: {
     deleteSet(set) {
       confirm('Möchten Sie das Set wirklich löschen?')
-        ? (this.allUserSets = this.allUserSets.filter((s) => s.id !== set._id))
-        : null;
+       // ? (this.allUserSets = this.allUserSets.filter((s) => s.id !== set._id))
+       // : null;
+      const token = btoa(`${this.username}:${JSON.parse(localStorage.getItem("user")).password}`);
+
+      fetch(`http://localhost:3000/api/sets/${set._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${token}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Fehler beim Löschen des Sets');
+          }
+          // Entferne das Set aus der lokalen Liste
+          this.allUserSets = this.allUserSets.filter((s) => s._id !== set._id);
+          alert('Set erfolgreich gelöscht');
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('Fehler beim Löschen des Sets');
+        });
     },
     playSet(set) {
       this.$router.push({ path: '/game', query: { setId: set._id } });

@@ -17,7 +17,7 @@
          <a @click="logout">Logout</a>
       </li>
     </ul>
-  </nav> <!-- END #navigation-bar -->
+  </nav> 
 </template>
 
 <script>
@@ -108,7 +108,7 @@ ul {
 
 li {
   display: flex;
-  align-items: center; /* Zentriert den Inhalt vertikal */
+  align-items: center;
 }
 
 a {
