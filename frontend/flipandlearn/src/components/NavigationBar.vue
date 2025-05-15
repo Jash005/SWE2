@@ -14,7 +14,7 @@
       </li>
       <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
       <li v-else>
-        <router-link to="/logout">Logout</router-link>
+         <a @click="logout">Logout</a>
       </li>
     </ul>
   </nav> <!-- END #navigation-bar -->
@@ -36,10 +36,7 @@ export default {
 
       authStore.logout();
       
-      // @Noemi: // Kleiner Hinweis: Hier lieber kein Reload, sondern einfach auf die Startseite weiterleiten.
-      // Schau dir gern die Funktion "redirectToProfile" an, falls du ein Beispiel brauchst.
-      // Und kannst du bitte diese Kommentare später löschen? danke 😄
-      window.location.reload();
+      this.$router.push("/");
     },
     redirectToProfile() {
       const authStore = useAuthStore();
@@ -65,6 +62,17 @@ export default {
   padding: 5px;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
 }
+
+.logout-link {
+  color: var(--navbar-font);
+  font-size: 16px;
+  text-decoration: none;
+  text-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.3);
+  transition: color 0.3s ease;
+  cursor: pointer;
+  padding: 0;
+}
+
 
 .logo-container {
   display: flex;
@@ -98,6 +106,11 @@ ul {
   gap: 20px;
 }
 
+li {
+  display: flex;
+  align-items: center; /* Zentriert den Inhalt vertikal */
+}
+
 a {
   color: var(--navbar-font);
   text-decoration: none;
@@ -110,20 +123,6 @@ a:hover {
   color: var(--navbar-font-hover);
 }
 
-.logout-button {
-  background-color: var(--button-danger);
-  color: var(--navbar-font);
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-  background-color: var(--button-danger-hover);
-}
 
 @media (min-width: 768px) {
   #navigation-bar {
