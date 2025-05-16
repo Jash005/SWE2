@@ -3,8 +3,16 @@
     <h1>404 - Oops! Seite nicht gefunden</h1>
     <p>Es sieht so aus, als ob du dich verlaufen hast...</p>
 
-    <div class="not-found-card">
-      <vue-flip active-click="true" width="200px" height="250px">
+    <div class="not-found-card" id="not-found-gif1" @click="countCardClick()">
+      <video src="@/assets/404_GIF.mp4" autoplay loop muted playsinline ></video>
+    </div>
+
+    <div class="not-found-card" id="not-found-gif2" @click="countCardClick()">
+      <video src="@/assets/404_GIF_WHY.mp4" autoplay loop muted playsinline ></video>
+    </div>
+
+    <div class="not-found-card" id="not-found-flip">
+      <vue-flip active-click="true" width="200px" height="250px" @click="countCardClick()">
         <!-- This line is required because the library expects the attribute on the template tag -->
         <!-- eslint-disable-next-line vue/no-useless-template-attributes -->
         <template v-slot:front class="front">
@@ -17,7 +25,7 @@
         </template>
       </vue-flip>
     </div> <!-- END .not-found-card -->
-
+    
     <router-link to="/" class="home-link">Zurück zur Startseite</router-link>
   </div> <!-- END .not-found -->
 </template>
@@ -30,8 +38,48 @@ export default {
   components: {
     'vue-flip': VueFlip
   },
+    data() {
+    return {
+      counter: 0
+    };
+  },
   mounted() {
     console.log('NotFound component mounted');
+  },
+  methods: {
+    countCardClick() {
+      const card = document.getElementById('not-found-flip');
+      const gif1 = document.getElementById('not-found-gif1');
+      const gif2 = document.getElementById('not-found-gif2');
+      
+      switch (this.counter) {
+        case 5:
+          gif1.style.display = 'block';
+          gif2.style.display = 'none';
+          card.style.display = 'none';
+          this.counter++;
+          break;
+        case 10:
+          gif1.style.display = 'none';
+          gif2.style.display = 'block';
+          card.style.display = 'none';
+          this.counter++;
+          break;
+        case 15:
+          gif1.style.display = 'none';
+          gif2.style.display = 'none';
+          card.style.display = 'block';
+          this.counter++;
+          break;
+        default:
+          this.counter++;
+      }
+
+      if (this.counter > 15) {
+        this.counter = 0;
+      }
+
+    }
   },
 };
 </script>
@@ -65,6 +113,11 @@ export default {
 .not-found-card {
   margin: 40px auto;
   text-align: -webkit-center;
+}
+
+#not-found-gif1,
+#not-found-gif2 {
+  display: none;
 }
 
 .home-link {
