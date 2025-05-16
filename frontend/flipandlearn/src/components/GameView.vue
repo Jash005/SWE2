@@ -3,9 +3,15 @@
     <h2>Spielen</h2>
 
     <article v-if="!selectedSet">
-      <section class="set-area" v-if="allUserSets.length > 0">
-        <SingleSetPlay v-for="set in allUserSets" :key="set.id" :set="set" @play="playSet" />
-      </section>
+      <div v-if="allUserSets.length === 0">
+        <h3>Du hast noch keine Sets erstellt.</h3>
+        <router-link to="/card-create" class="create-button">+ Set erstellen</router-link>
+      </div>
+      <div v-else>
+        <section class="set-area" v-if="allUserSets.length > 0">
+          <SingleSetPlay v-for="set in allUserSets" :key="set.id" :set="set" @play="playSet" />
+        </section>
+      </div>
     </article>
 
     <article v-else>

@@ -20,7 +20,10 @@
 
       <section class="recent-games">
         <h4>Letzte Spiele</h4>
-        <div class="recent-games-list">
+        <div v-if="recentGames.length === 0">
+          <p>Du hast noch kein Memory gespielt.</p>
+        </div>
+        <div v-else class="recent-games-list">
           <div v-for="game in recentGames" :key="game.id" class="recent-game-item" @click="playThisSet(game.set.setId)">
             <span class="game-name">{{ game.set.setTitle }}</span>
             <span class="game-score">{{ game.scores }} Punkte</span>
@@ -125,6 +128,27 @@ export default {
 };
 </script>
 
+<!-- ----------- global Style ----------- -->
+<style>
+.create-button {
+  background-color: var(--button);
+  color: var(--button-font);
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.create-button:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+}
+</style>
+
+<!-- ----------- Scoped Style ----------- -->
 <style scoped>
 h2 {
   color: var(--general-font-header);
@@ -157,24 +181,6 @@ h4 {
   gap: 20px;
   justify-content: center;
 }
-
-.create-button {
-  background-color: var(--button);
-  color: var(--button-font);
-  padding: 12px 24px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: var(--button-shadow);
-}
-
-.create-button:hover {
-  background-color: var(--button-hover);
-  transform: translateY(-2px);
-}
-
 
 .recent-games {
   margin-top: 30px;
